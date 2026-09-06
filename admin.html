@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-title="title.admin">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <meta
       name="description"
+      data-i18n-meta="meta.admin"
       content="MeowArch data management — devices and release info."
     >
     <meta name="theme-color" content="#eaf2ff" >
@@ -49,7 +50,7 @@
 
     <main class="site-shell">
       <header class="topbar">
-        <a class="brand-lockup" href="index.html" aria-label="MeowArch home">
+        <a class="brand-lockup" href="index.html" aria-label="MeowArch home" data-i18n-aria="aria.brand">
           <span class="brand-mark-frame">
             <img src="assets/meowarch-header-icon.png" alt="" >
           </span>
@@ -57,25 +58,25 @@
             <span class="brand-name"
               ><span>Meow</span><strong>Arch</strong></span
             >
-            <span class="brand-tagline">Purrfectly Minimal Arch</span>
+            <span class="brand-tagline" data-i18n="brand.tagline">Purrfectly Minimal Arch</span>
           </span>
         </a>
 
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="index.html#features">Features</a>
-          <a class="nav-link is-active" href="download.html" aria-current="page"
+        <nav class="desktop-nav" aria-label="Primary navigation" data-i18n-aria="aria.nav">
+          <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
+          <a class="nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
+          <a class="nav-link is-active" href="download.html" aria-current="page" data-i18n="nav.download"
             >Download</a
           >
-          <a class="nav-link" href="index.html#docs">Docs</a>
-          <a class="nav-link" href="index.html#community">Community</a>
+          <a class="nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+          <a class="nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
         </nav>
 
         <div class="top-actions">
           <button
             class="icon-button theme-toggle"
             type="button"
-            aria-label="Switch theme"
+            aria-label="Switch theme" data-i18n-aria="aria.theme"
             aria-pressed="false"
           >
             <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
@@ -95,7 +96,7 @@
             href="https://github.com/xingguangcuican6666/MeowArchWebSite"
             target="_blank"
             rel="noreferrer"
-            aria-label="MeowArch on GitHub"
+            aria-label="MeowArch on GitHub" data-i18n-aria="aria.github"
           >
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -104,10 +105,14 @@
               <path d="M9 18c-3.5 1.6-3.5-1.8-5-2"></path>
             </svg>
           </a>
+          <select class="lang-select" aria-label="Language" data-i18n-aria="lang.label">
+            <option value="en">English</option>
+            <option value="zh-CN">中文</option>
+          </select>
           <button
             class="icon-button menu-toggle"
             type="button"
-            aria-label="Open navigation"
+            aria-label="Open navigation" data-i18n-aria="aria.menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
@@ -119,64 +124,66 @@
       </header>
 
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
-        <a class="mobile-nav-link" href="index.html">Home</a>
-        <a class="mobile-nav-link" href="index.html#features">Features</a>
+        <a class="mobile-nav-link" href="index.html" data-i18n="nav.home">Home</a>
+        <a class="mobile-nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
         <a
           class="mobile-nav-link is-active"
           href="download.html"
-          aria-current="page"
+          aria-current="page" data-i18n="nav.download"
           >Download</a
         >
-        <a class="mobile-nav-link" href="index.html#docs">Docs</a>
-        <a class="mobile-nav-link" href="index.html#community">Community</a>
+        <a class="mobile-nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+        <a class="mobile-nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
       </div>
 
       <section class="download-hero" id="top" aria-labelledby="admin-title">
-        <a class="back-link reveal reveal-delay-1" href="devices.html"
+        <a class="back-link reveal reveal-delay-1" href="devices.html" data-i18n-html="admin.back_html"
           ><span aria-hidden="true">←</span> Back to devices</a
         >
-        <h1 id="admin-title" class="download-title reveal reveal-delay-2">
+        <h1 id="admin-title" class="download-title reveal reveal-delay-2" data-i18n-html="admin.title_html">
           Data <strong>Management</strong>
         </h1>
-        <p class="download-subtitle reveal reveal-delay-3">
+        <p class="download-subtitle reveal reveal-delay-3" data-i18n="admin.subtitle">
           Add, edit and remove devices and their release info.
         </p>
       </section>
 
-      <section class="admin-panel reveal" id="auth-panel" aria-label="Sign in">
-        <h2 class="admin-heading">Admin token</h2>
-        <p class="admin-hint">
+      <section class="admin-panel reveal" id="auth-panel" aria-label="Sign in" data-i18n-aria="a.auth_aria">
+        <h2 class="admin-heading" data-i18n="a.token_title">Admin token</h2>
+        <p class="admin-hint" data-i18n-html="a.token_hint_html">
           Paste your API admin token (your <code>ADMIN_SECRET_KEY</code>, or the
           dev token printed at startup). It is kept only in this tab's session.
         </p>
         <form id="auth-form" class="admin-form">
           <div class="field">
-            <label for="token-input">Bearer token</label>
+            <label for="token-input" data-i18n="a.token_label">Bearer token</label>
             <input
               id="token-input"
               type="password"
               autocomplete="new-password"
               spellcheck="false"
               placeholder="Paste admin token…"
+              data-i18n-placeholder="a.token_placeholder"
               required
             >
           </div>
           <div class="admin-actions">
-            <button class="button button-primary" type="submit">Unlock</button>
+            <button class="button button-primary" type="submit" data-i18n="a.unlock">Unlock</button>
           </div>
         </form>
         <div id="auth-error" class="admin-error" hidden></div>
       </section>
 
-      <section class="admin-panel reveal" id="manager" hidden aria-label="Device management">
+      <section class="admin-panel reveal" id="manager" hidden aria-label="Device management" data-i18n-aria="a.manager_aria">
         <div class="admin-head">
-          <h2 class="admin-heading">Devices</h2>
+          <h2 class="admin-heading" data-i18n="a.devices">Devices</h2>
           <div class="admin-actions">
-            <button id="signout-btn" class="button button-secondary" type="button">
+            <button id="signout-btn" class="button button-secondary" type="button" data-i18n="a.sign_out">
               Sign out
             </button>
             <button
               id="add-device-btn"
+              data-i18n="a.add_device"
               class="button button-secondary"
               type="button"
             >
@@ -187,26 +194,26 @@
         <div id="admin-status" class="admin-error" hidden></div>
         <div id="device-list" class="admin-list" aria-live="polite"></div>
 
-        <section class="admin-editor" id="device-editor" hidden aria-label="Device editor">
+        <section class="admin-editor" id="device-editor" hidden aria-label="Device editor" data-i18n-aria="a.editor_aria">
           <h3 class="admin-subheading" id="device-editor-title">Add device</h3>
           <form id="device-form" class="admin-form">
             <div class="field">
-              <label for="device-flavor">Flavor</label>
+              <label for="device-flavor" data-i18n="a.flavor">Flavor</label>
               <select id="device-flavor" class="flavor-select">
-                <option value="meowarchmobile" selected>MeowArchMobile</option>
-                <option value="meowarch">MeowArch (desktop)</option>
+                <option value="meowarchmobile" selected data-i18n="a.opt_mobile">MeowArchMobile</option>
+                <option value="meowarch" data-i18n="a.opt_desktop">MeowArch (desktop)</option>
               </select>
             </div>
             <div class="field">
-              <label for="device-brand">Brand *</label>
+              <label for="device-brand" data-i18n="a.brand">Brand *</label>
               <input id="device-brand" type="text" placeholder="Xiaomi" required>
             </div>
             <div class="field">
-              <label for="device-model">Model *</label>
+              <label for="device-model" data-i18n="a.model">Model *</label>
               <input id="device-model" type="text" placeholder="Redmi K80" required>
             </div>
             <div class="field">
-              <label for="device-codename">Codename *</label>
+              <label for="device-codename" data-i18n="a.codename">Codename *</label>
               <input
                 id="device-codename"
                 type="text"
@@ -214,25 +221,25 @@
                 pattern="[A-Za-z0-9_\-]+"
                 required
               >
-              <small class="field-note"
+              <small class="field-note" data-i18n-html="a.codename_note_html"
                 >Letters, digits, <code>_</code> and <code>-</code> only.
                 Locked after creation.</small
               >
             </div>
             <div class="field">
-              <label for="device-soc">SoC</label>
+              <label for="device-soc" data-i18n="a.soc">SoC</label>
               <input id="device-soc" type="text" placeholder="Snapdragon 8 Gen 3">
             </div>
             <div class="field">
-              <label for="device-status">Status</label>
+              <label for="device-status" data-i18n="a.status">Status</label>
               <select id="device-status" class="flavor-select">
-                <option value="official">Official</option>
-                <option value="community" selected>Community</option>
+                <option value="official" data-i18n="a.status_official">Official</option>
+                <option value="community" selected data-i18n="a.status_community">Community</option>
               </select>
             </div>
             <div class="admin-actions">
-              <button class="button button-primary" type="submit">Save device</button>
-              <button id="device-cancel-btn" class="button button-secondary" type="button">
+              <button class="button button-primary" type="submit" data-i18n="a.save_device">Save device</button>
+              <button id="device-cancel-btn" class="button button-secondary" type="button" data-i18n="a.cancel">
                 Cancel
               </button>
             </div>
@@ -240,11 +247,12 @@
         </section>
       </section>
 
-      <section class="admin-panel reveal" id="release-manager" hidden aria-label="Release editor">
+      <section class="admin-panel reveal" id="release-manager" hidden aria-label="Release editor" data-i18n-aria="a.release_aria">
         <div class="admin-head">
           <h2 class="admin-heading" id="release-title">Release info</h2>
           <button
             id="close-release-btn"
+            data-i18n="a.close"
             class="button button-secondary"
             type="button"
           >
@@ -256,12 +264,13 @@
 
       <footer class="site-footer">
         <span>MeowArch</span>
-        <span>Built with Arch, care, and a little purr.</span>
-        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+        <span data-i18n="footer.tagline">Built with Arch, care, and a little purr.</span>
+        <a href="#top" data-i18n-html="footer.back_top_html">Back to top <span aria-hidden="true">↑</span></a>
       </footer>
     </main>
 
     <script src="api-config.js"></script>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
     <script src="admin.js"></script>
   </body>

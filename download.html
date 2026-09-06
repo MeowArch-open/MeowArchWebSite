@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-title="title.download">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <meta
       name="description"
+      data-i18n-meta="meta.download"
       content="Download the MeowArch ISO, verify checksums, and start purring."
     >
     <meta name="theme-color" content="#eaf2ff" >
@@ -48,7 +49,7 @@
 
     <main class="site-shell">
       <header class="topbar">
-        <a class="brand-lockup" href="index.html" aria-label="MeowArch home">
+        <a class="brand-lockup" href="index.html" aria-label="MeowArch home" data-i18n-aria="aria.brand">
           <span class="brand-mark-frame">
             <img src="assets/meowarch-header-icon.png" alt="" >
           </span>
@@ -56,25 +57,25 @@
             <span class="brand-name"
               ><span>Meow</span><strong>Arch</strong></span
             >
-            <span class="brand-tagline">Purrfectly Minimal Arch</span>
+            <span class="brand-tagline" data-i18n="brand.tagline">Purrfectly Minimal Arch</span>
           </span>
         </a>
 
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="index.html#features">Features</a>
-          <a class="nav-link is-active" href="download.html" aria-current="page"
+        <nav class="desktop-nav" aria-label="Primary navigation" data-i18n-aria="aria.nav">
+          <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
+          <a class="nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
+          <a class="nav-link is-active" href="download.html" aria-current="page" data-i18n="nav.download"
             >Download</a
           >
-          <a class="nav-link" href="index.html#docs">Docs</a>
-          <a class="nav-link" href="index.html#community">Community</a>
+          <a class="nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+          <a class="nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
         </nav>
 
         <div class="top-actions">
           <button
             class="icon-button theme-toggle"
             type="button"
-            aria-label="Switch theme"
+            aria-label="Switch theme" data-i18n-aria="aria.theme"
             aria-pressed="false"
           >
             <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
@@ -94,7 +95,7 @@
             href="https://github.com/xingguangcuican6666/MeowArchWebSite"
             target="_blank"
             rel="noreferrer"
-            aria-label="MeowArch on GitHub"
+            aria-label="MeowArch on GitHub" data-i18n-aria="aria.github"
           >
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -103,13 +104,17 @@
               <path d="M9 18c-3.5 1.6-3.5-1.8-5-2"></path>
             </svg>
           </a>
-          <a class="button button-primary top-cta" href="index.html#get-started"
+          <a class="button button-primary top-cta" href="index.html#get-started" data-i18n="cta.get_started"
             >Get Started</a
           >
+          <select class="lang-select" aria-label="Language" data-i18n-aria="lang.label">
+            <option value="en">English</option>
+            <option value="zh-CN">中文</option>
+          </select>
           <button
             class="icon-button menu-toggle"
             type="button"
-            aria-label="Open navigation"
+            aria-label="Open navigation" data-i18n-aria="aria.menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
@@ -121,24 +126,24 @@
       </header>
 
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
-        <a class="mobile-nav-link" href="index.html">Home</a>
-        <a class="mobile-nav-link" href="index.html#features">Features</a>
+        <a class="mobile-nav-link" href="index.html" data-i18n="nav.home">Home</a>
+        <a class="mobile-nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
         <a
           class="mobile-nav-link is-active"
           href="download.html"
-          aria-current="page"
+          aria-current="page" data-i18n="nav.download"
           >Download</a
         >
-        <a class="mobile-nav-link" href="index.html#docs">Docs</a>
-        <a class="mobile-nav-link" href="index.html#community">Community</a>
+        <a class="mobile-nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+        <a class="mobile-nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
       </div>
 
       <section class="download-hero" id="top" aria-labelledby="download-title">
-        <h1 id="download-title" class="download-title reveal reveal-delay-1">
+        <h1 id="download-title" class="download-title reveal reveal-delay-1" data-i18n-html="d.title_html">
           Download <span>Meow</span><strong>Arch</strong>
         </h1>
-        <p class="download-subtitle reveal reveal-delay-2">Purrfectly Minimal, Ready to Purr.</p>
-        <p class="download-description reveal reveal-delay-3">
+        <p class="download-subtitle reveal reveal-delay-2" data-i18n="d.subtitle">Purrfectly Minimal, Ready to Purr.</p>
+        <p class="download-description reveal reveal-delay-3" data-i18n-html="d.desc_html">
           Grab the latest MeowArch ISO, verify it, and boot into a
           lightweight,<br class="desktop-only" >
           cat-approved Arch experience.
@@ -155,14 +160,14 @@
               <path d="m8 10 4 4 4-4"></path>
               <path d="M5 20h14"></path>
             </svg>
-            <span>Download ISO</span>
+            <span data-i18n="d.download_iso">Download ISO</span>
           </a>
-          <a class="button button-secondary" href="index.html#docs"
+          <a class="button button-secondary" href="index.html#docs" data-i18n="d.install_guide"
             >Install Guide</a
           >
         </div>
         <div class="flavor-picker reveal reveal-delay-5">
-          <label class="flavor-label" for="flavor-select"
+          <label class="flavor-label" for="flavor-select" data-i18n="d.choose_flavor"
             >Choose your flavor</label
           >
           <select id="flavor-select" class="flavor-select">
@@ -177,14 +182,14 @@
           rel="noreferrer"
         >
           <span class="release-spark">✦</span>
-          <span>Latest Release:</span>
+          <span data-i18n="pill.latest">Latest Release:</span>
           <strong class="release-version">v1.0.0</strong>
           <span class="release-dot">•</span>
           <span class="release-date">August 2025</span>
         </a>
       </section>
 
-      <section class="resource-panel" aria-label="Download options">
+      <section class="resource-panel" aria-label="Download options" data-i18n-aria="d.res_aria">
         <article class="resource-card reveal">
           <span class="resource-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
@@ -202,6 +207,7 @@
             href="https://archlinux.org/download/"
             target="_blank"
             rel="noreferrer"
+            data-i18n-html="d.btn_mirrors_html"
             >Mirrors <span aria-hidden="true">↗</span></a
           >
         </article>
@@ -217,14 +223,15 @@
             </svg>
           </span>
           <div>
-            <h2>Torrent</h2>
-            <p>Peer-to-peer download, purr-fectly fast.</p>
+            <h2 data-i18n="d.res_torrent">Torrent</h2>
+            <p data-i18n="d.res_torrent_desc">Peer-to-peer download, purr-fectly fast.</p>
           </div>
           <a
             class="text-link"
             href="https://archlinux.org/download/"
             target="_blank"
             rel="noreferrer"
+            data-i18n-html="d.btn_torrent_html"
             >Get torrent <span aria-hidden="true">↗</span></a
           >
         </article>
@@ -237,23 +244,24 @@
             </svg>
           </span>
           <div>
-            <h2>Mirrors</h2>
-            <p>Fast worldwide mirrors, closer to your whiskers.</p>
+            <h2 data-i18n="d.res_mirrors_title">Mirrors</h2>
+            <p data-i18n="d.res_mirrors_desc">Fast worldwide mirrors, closer to your whiskers.</p>
           </div>
           <a
             class="text-link"
             href="https://archlinux.org/mirrorlist/"
             target="_blank"
             rel="noreferrer"
+            data-i18n-html="d.btn_mirror_list_html"
             >Mirror list <span aria-hidden="true">↗</span></a
           >
         </article>
       </section>
 
-      <section class="checksum-panel reveal" aria-label="ISO verification">
+      <section class="checksum-panel reveal" aria-label="ISO verification" data-i18n-aria="checksum.aria">
         <div class="checksum-copy">
-          <h2>Verify Your Download</h2>
-          <p>
+          <h2 data-i18n="checksum.title">Verify Your Download</h2>
+          <p data-i18n="checksum.desc">
             Always check the SHA256 checksum before you boot. Official
             checksums are published with every release.
           </p>
@@ -261,7 +269,7 @@
         <div
           class="checksum-box"
           role="group"
-          aria-label="SHA256 checksum command"
+          aria-label="SHA256 checksum command" data-i18n-aria="aria.checksum"
         >
           <code data-flavor="checksum-cmd"
             >$ sha256sum meowarch-1.0.0-x86_64.iso</code
@@ -273,27 +281,28 @@
         </div>
       </section>
 
-      <section class="download-info reveal" aria-label="System requirements">
+      <section class="download-info reveal" aria-label="System requirements" data-i18n-aria="req.aria">
         <div>
-          <h2>System<br >Requirements</h2>
+          <h2 data-i18n-html="req.title_html">System<br >Requirements</h2>
           <span class="short-rule" aria-hidden="true"></span>
         </div>
         <ul class="requirements-list">
-          <li><strong>64-bit</strong> x86-64 CPU</li>
-          <li><strong>2 GB</strong> RAM minimum</li>
-          <li><strong>20 GB</strong> free disk space</li>
-          <li><strong>USB drive</strong> 4 GB+ for the live ISO</li>
+          <li data-i18n-html="req.cpu_html"><strong>64-bit</strong> x86-64 CPU</li>
+          <li data-i18n-html="req.ram_html"><strong>2 GB</strong> RAM minimum</li>
+          <li data-i18n-html="req.disk_html"><strong>20 GB</strong> free disk space</li>
+          <li data-i18n-html="req.usb_html"><strong>USB drive</strong> 4 GB+ for the live ISO</li>
         </ul>
       </section>
 
       <footer class="site-footer">
         <span>MeowArch</span>
-        <span>Built with Arch, care, and a little purr.</span>
-        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+        <span data-i18n="footer.tagline">Built with Arch, care, and a little purr.</span>
+        <a href="#top" data-i18n-html="footer.back_top_html">Back to top <span aria-hidden="true">↑</span></a>
       </footer>
     </main>
 
     <script src="api-config.js"></script>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

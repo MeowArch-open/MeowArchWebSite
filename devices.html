@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-title="title.devices">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <meta
       name="description"
+      data-i18n-meta="meta.devices"
       content="Choose your MeowArchMobile device and grab the matching build."
     >
     <meta name="theme-color" content="#eaf2ff" >
@@ -48,7 +49,7 @@
 
     <main class="site-shell">
       <header class="topbar">
-        <a class="brand-lockup" href="index.html" aria-label="MeowArch home">
+        <a class="brand-lockup" href="index.html" aria-label="MeowArch home" data-i18n-aria="aria.brand">
           <span class="brand-mark-frame">
             <img src="assets/meowarch-header-icon.png" alt="" >
           </span>
@@ -56,25 +57,25 @@
             <span class="brand-name"
               ><span>Meow</span><strong>Arch</strong></span
             >
-            <span class="brand-tagline">Purrfectly Minimal Arch</span>
+            <span class="brand-tagline" data-i18n="brand.tagline">Purrfectly Minimal Arch</span>
           </span>
         </a>
 
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="index.html#features">Features</a>
-          <a class="nav-link is-active" href="download.html" aria-current="page"
+        <nav class="desktop-nav" aria-label="Primary navigation" data-i18n-aria="aria.nav">
+          <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
+          <a class="nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
+          <a class="nav-link is-active" href="download.html" aria-current="page" data-i18n="nav.download"
             >Download</a
           >
-          <a class="nav-link" href="index.html#docs">Docs</a>
-          <a class="nav-link" href="index.html#community">Community</a>
+          <a class="nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+          <a class="nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
         </nav>
 
         <div class="top-actions">
           <button
             class="icon-button theme-toggle"
             type="button"
-            aria-label="Switch theme"
+            aria-label="Switch theme" data-i18n-aria="aria.theme"
             aria-pressed="false"
           >
             <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
@@ -94,7 +95,7 @@
             href="https://github.com/xingguangcuican6666/MeowArchWebSite"
             target="_blank"
             rel="noreferrer"
-            aria-label="MeowArch on GitHub"
+            aria-label="MeowArch on GitHub" data-i18n-aria="aria.github"
           >
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -103,13 +104,17 @@
               <path d="M9 18c-3.5 1.6-3.5-1.8-5-2"></path>
             </svg>
           </a>
-          <a class="button button-primary top-cta" href="index.html#get-started"
+          <a class="button button-primary top-cta" href="index.html#get-started" data-i18n="cta.get_started"
             >Get Started</a
           >
+          <select class="lang-select" aria-label="Language" data-i18n-aria="lang.label">
+            <option value="en">English</option>
+            <option value="zh-CN">中文</option>
+          </select>
           <button
             class="icon-button menu-toggle"
             type="button"
-            aria-label="Open navigation"
+            aria-label="Open navigation" data-i18n-aria="aria.menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
@@ -121,26 +126,26 @@
       </header>
 
       <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
-        <a class="mobile-nav-link" href="index.html">Home</a>
-        <a class="mobile-nav-link" href="index.html#features">Features</a>
+        <a class="mobile-nav-link" href="index.html" data-i18n="nav.home">Home</a>
+        <a class="mobile-nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
         <a
           class="mobile-nav-link is-active"
           href="download.html"
-          aria-current="page"
+          aria-current="page" data-i18n="nav.download"
           >Download</a
         >
-        <a class="mobile-nav-link" href="index.html#docs">Docs</a>
-        <a class="mobile-nav-link" href="index.html#community">Community</a>
+        <a class="mobile-nav-link" href="index.html#docs" data-i18n="nav.docs">Docs</a>
+        <a class="mobile-nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
       </div>
 
       <section class="download-hero" id="top" aria-labelledby="devices-title">
-        <a class="back-link reveal reveal-delay-1" href="download.html"
+        <a class="back-link reveal reveal-delay-1" href="download.html" data-i18n-html="devices.back_html"
           ><span aria-hidden="true">←</span> Back to downloads</a
         >
-        <h1 id="devices-title" class="download-title reveal reveal-delay-2">
+        <h1 id="devices-title" class="download-title reveal reveal-delay-2" data-i18n-html="devices.title_html">
           Choose Your <strong>Device</strong>
         </h1>
-        <p class="download-subtitle reveal reveal-delay-3">
+        <p class="download-subtitle reveal reveal-delay-3" data-i18n="devices.subtitle">
           Pick your MeowArchMobile flavor and grab the matching build.
         </p>
       </section>
@@ -148,7 +153,7 @@
       <section
         class="device-list"
         id="device-list"
-        aria-label="Supported devices"
+        aria-label="Supported devices" data-i18n-aria="devices.list_aria"
         aria-live="polite"
       ></section>
 
@@ -156,12 +161,13 @@
 
       <footer class="site-footer">
         <span>MeowArch</span>
-        <span>Built with Arch, care, and a little purr.</span>
-        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+        <span data-i18n="footer.tagline">Built with Arch, care, and a little purr.</span>
+        <a href="#top" data-i18n-html="footer.back_top_html">Back to top <span aria-hidden="true">↑</span></a>
       </footer>
     </main>
 
     <script src="api-config.js"></script>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
     <script src="devices.js"></script>
   </body>

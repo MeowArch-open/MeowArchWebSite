@@ -11,6 +11,7 @@ MeowArch 是一个轻量、清爽的 Arch Linux 主题宣传首页。项目使�
 - 页面顶部流式导航，向下滚动后自动缩小并悬浮
 - 移动端汉堡菜单与锚点导航，桌面端主题切换（日月图标交叉淡化）
 - 入场/滚动渐显动画与微交互（主题、按压、菜单逐条展开、设备卡错峰进场），尊重 `prefers-reduced-motion`
+- 前端多语言（英文 / 简体中文）：按浏览器语言自动选择、顶栏一键切换、选择持久化，覆盖全部页面与动态文案
 - 使用同一份简化图标派生的浏览器图标、Apple Touch Icon 和品牌图标
 - GitHub Pages 自动部署 workflow
 - 独立运行的 MeowArch Release API（公共查询 + 鉴权上传/发布），见 [`api/README.md`](api/README.md)
@@ -22,9 +23,12 @@ MeowArch 是一个轻量、清爽的 Arch Linux 主题宣传首页。项目使�
 ├── index.html
 ├── download.html
 ├── devices.html          # 设备选择页（MeowArchMobile）
+├── admin.html            # 数据管理页（URL 直访，需管理员令牌）
 ├── styles.css
 ├── script.js
 ├── devices.js            # 设备页：拉取机型/版本、渲染、离线降级
+├── admin.js              # 数据管理页：设备/版本增删改（Bearer 鉴权）
+├── i18n.js               # 前端多语言：en / zh-CN 字典、自动检测、切换器
 ├── api-config.js         # API 地址一处配置（window.MEOWARCH_API_BASE）
 ├── api/                 # MeowArch Release API（Node.js 后端，独立运行）
 ├── assets/
@@ -67,10 +71,12 @@ npx serve .
 
 ## 修改内容
 
-- 页面结构和文案：`index.html`（首页）、`download.html`（下载页）与 `devices.html`（设备选择页）
+- 页面结构和文案：`index.html`（首页）、`download.html`（下载页）、`devices.html`（设备选择页）与 `admin.html`（数据管理页）
 - 布局、颜色和响应式规则：`styles.css`
 - 菜单、主题和滚动导航行为：`script.js`
 - 设备选择页逻辑（机型/版本拉取与渲染）：`devices.js`
+- 数据管理页逻辑（设备/版本增删改、Bearer 鉴权）：`admin.js`
+- 多语言字典与应用（`en` / `zh-CN`，切换器在顶栏）：`i18n.js`
 - API 地址配置：`api-config.js`
 - 插画、特性图标和 favicon：`assets/`
 

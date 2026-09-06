@@ -1,9 +1,15 @@
 /* MeowArchMobile device picker — powered by the MeowArch Release API. */
 const API = window.MEOWARCH_API_BASE || "http://127.0.0.1:3000/api/v1";
 const REQUEST_TIMEOUT_MS = 5000;
+const t = (key, params) => window.MEOWARCH_I18N.t(key, params);
 
 const deviceListEl = document.querySelector("#device-list");
 const deviceDetailEl = document.querySelector("#device-detail");
+
+/* Cached render state, so a language switch re-renders without refetching. */
+let lastDevices = null;
+let lastOffline = false;
+let lastRelease = null;
 
 /* Offline fallback — mirrors the API seed data so the page never breaks. */
 const FALLBACK_DEVICES = [
@@ -39,7 +45,9 @@ async function fetchJson(url) {
     const res = await fetch(url, { signal: controller.signal });
     const body = await res.json().catch(() => ({}));
     if (!res.ok) {
-      const error = new Error(body.message || `Request failed (${res.status})`);
+      const error = new Error(
+        body.message || t("a.request_failed", { status: res.status }),
+      );
       error.status = res.status;
       throw error;
     }
@@ -60,7 +68,7 @@ function stateNote(message, { retry = false } = {}) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "button button-secondary retry-button";
-    button.textContent = "Retry";
+    button.textContent = t("retry");
     button.addEventListener("click", init);
     note.appendChild(button);
   }
@@ -72,10 +80,14 @@ function deviceCard(device) {
   article.className = "device-card";
   article.tabIndex = 0;
   article.setAttribute("role", "button");
-  article.setAttribute("aria-label", `Download for ${device.model}`);
+  article.setAttribute(
+    "aria-label",
+    t("devices.card_aria", { model: device.model }),
+  );
   article.dataset.codename = device.codename;
+  const status = device.status || "community";
   article.innerHTML = `
-    <span class="device-badge is-${escapeHtml(device.status || "community")}">${escapeHtml(device.status || "community")}</span>
+    <span class="device-badge is-${escapeHtml(status)}">${escapeHtml(t(`status.${status}`))}</span>
     <h3>${escapeHtml(device.model)}</h3>
     <p class="device-brand">${escapeHtml(device.brand)} · ${escapeHtml(device.codename)}</p>
     <p class="device-soc">${escapeHtml(device.soc || "")}</p>
@@ -92,12 +104,13 @@ function deviceCard(device) {
 }
 
 function renderDevices(devices, { offline = false } = {}) {
+  lastDevices = devices;
+  lastOffline = offline;
   deviceListEl.innerHTML = "";
   if (offline) {
     const note = document.createElement("div");
     note.className = "state-note is-warning";
-    note.textContent =
-      "API offline — showing cached devices. Release info may be unavailable.";
+    note.textContent = t("offline_warning");
     deviceListEl.appendChild(note);
   }
   devices.forEach((device) => deviceListEl.appendChild(deviceCard(device)));
@@ -109,7 +122,7 @@ function artifactButton(artifact, label, primary = false) {
   return `<a class="${cls}" href="${escapeHtml(artifact.url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}${artifact.fileSize ? ` (${escapeHtml(artifact.fileSize)})` : ""}</a>`;
 }
 
-function renderDetail(release) {
+function renderDetail(release, { scroll = true } = {}) {
   const iso = release.artifacts?.iso;
   const torrent = release.artifacts?.torrent;
   const bootImg = release.artifacts?.bootImg;
@@ -118,32 +131,36 @@ function renderDetail(release) {
     iso?.sha256 ||
     bootImg?.sha256 ||
     "0000000000000000000000000000000000000000000000000000000000000000";
+  const bootLabel = t("detail.boot_image_html", {
+    name: escapeHtml(bootImg.fileName || "boot"),
+  });
 
+  lastRelease = release;
   deviceDetailEl.innerHTML = `
     <div class="detail-head">
       <h2><span>MeowArchMobile</span> <strong>${escapeHtml(device.model || "")}</strong></h2>
       <span class="release-pill">
         <span class="release-spark">✦</span>
-        <span>Latest Release:</span>
+        <span>${escapeHtml(t("pill.latest"))}</span>
         <strong>${escapeHtml(release.version || "")}</strong>
         <span class="release-dot">•</span>
         <span>${escapeHtml(release.releaseDate || "")}</span>
       </span>
     </div>
     <div class="detail-meta">
-      <span>Channel: <strong>${escapeHtml(release.channel || "stable")}</strong></span>
-      <span>Codename: <strong>${escapeHtml(device.codename || "")}</strong></span>
-      ${device.arch ? `<span>Arch: <strong>${escapeHtml(device.arch)}</strong></span>` : ""}
-      ${device.soc ? `<span>SoC: <strong>${escapeHtml(device.soc)}</strong></span>` : ""}
+      <span>${escapeHtml(t("detail.channel"))} <strong>${escapeHtml(release.channel || "stable")}</strong></span>
+      <span>${escapeHtml(t("detail.codename"))} <strong>${escapeHtml(device.codename || "")}</strong></span>
+      ${device.arch ? `<span>${escapeHtml(t("detail.arch"))} <strong>${escapeHtml(device.arch)}</strong></span>` : ""}
+      ${device.soc ? `<span>${escapeHtml(t("detail.soc"))} <strong>${escapeHtml(device.soc)}</strong></span>` : ""}
     </div>
     <div class="detail-artifacts">
-      ${artifactButton(iso, "Download ISO", true)}
-      ${artifactButton(torrent, "Torrent")}
-      ${bootImg?.url ? `<a class="text-link boot-img-link" href="${escapeHtml(bootImg.url)}" target="_blank" rel="noreferrer">Boot image (${escapeHtml(bootImg.fileName || "boot")}) <span aria-hidden="true">↗</span></a>` : ""}
+      ${artifactButton(iso, t("d.download_iso"), true)}
+      ${artifactButton(torrent, t("detail.torrent"))}
+      ${bootImg?.url ? `<a class="text-link boot-img-link" href="${escapeHtml(bootImg.url)}" target="_blank" rel="noreferrer">${bootLabel}</a>` : ""}
     </div>
     ${
       iso?.fileName
-        ? `<div class="checksum-box" role="group" aria-label="SHA256 checksum">
+        ? `<div class="checksum-box" role="group" aria-label="${escapeHtml(t("aria.checksum"))}">
       <code>$ sha256sum ${escapeHtml(iso.fileName)}</code>
       <code class="checksum-hash">${escapeHtml(checksum)} &nbsp;${escapeHtml(iso.fileName)}</code>
     </div>`
@@ -152,19 +169,22 @@ function renderDetail(release) {
     ${
       release.notes
         ? `<div class="detail-notes">
-      ${release.notes.androidBase ? `<span>Android base: <strong>${escapeHtml(release.notes.androidBase)}</strong></span>` : ""}
-      ${release.notes.kernelVersion ? `<span>Kernel: <strong>${escapeHtml(release.notes.kernelVersion)}</strong></span>` : ""}
+      ${release.notes.androidBase ? `<span>${escapeHtml(t("detail.android_base"))} <strong>${escapeHtml(release.notes.androidBase)}</strong></span>` : ""}
+      ${release.notes.kernelVersion ? `<span>${escapeHtml(t("detail.kernel"))} <strong>${escapeHtml(release.notes.kernelVersion)}</strong></span>` : ""}
     </div>`
         : ""
     }
   `;
   deviceDetailEl.hidden = false;
-  deviceDetailEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (scroll) {
+    deviceDetailEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 async function selectDevice(device) {
+  lastRelease = null;
   deviceDetailEl.hidden = false;
-  deviceDetailEl.innerHTML = `<div class="state-note">Loading release info for ${escapeHtml(device.model)}…</div>`;
+  deviceDetailEl.innerHTML = `<div class="state-note">${escapeHtml(t("loading_release", { model: device.model }))}</div>`;
   try {
     const release = await fetchJson(
       `${API}/releases/latest?flavor=meowarchmobile&codename=${encodeURIComponent(device.codename)}`,
@@ -172,20 +192,22 @@ async function selectDevice(device) {
     renderDetail(release);
   } catch (error) {
     if (error.status === 404) {
-      deviceDetailEl.innerHTML = `<div class="state-note">No release available for ${escapeHtml(device.model)} yet. Meow!</div>`;
+      deviceDetailEl.innerHTML = `<div class="state-note">${escapeHtml(t("no_release", { model: device.model }))}</div>`;
     } else {
-      deviceDetailEl.innerHTML = `<div class="state-note is-warning">Couldn't load release info (API offline?). Try again later.</div>`;
+      deviceDetailEl.innerHTML = `<div class="state-note is-warning">${escapeHtml(t("load_release_failed"))}</div>`;
     }
   }
 }
 
 async function init() {
+  lastRelease = null;
   deviceDetailEl.hidden = true;
-  deviceListEl.innerHTML = `<div class="state-note">Loading devices…</div>`;
+  deviceListEl.innerHTML = `<div class="state-note">${escapeHtml(t("loading_devices"))}</div>`;
   try {
     const devices = await fetchJson(`${API}/devices?flavor=meowarchmobile`);
     if (!Array.isArray(devices) || devices.length === 0) {
-      stateNote("No devices listed yet. Meow?");
+      lastDevices = null;
+      stateNote(t("empty_devices"));
       return;
     }
     renderDevices(devices);
@@ -193,5 +215,12 @@ async function init() {
     renderDevices(FALLBACK_DEVICES, { offline: true });
   }
 }
+
+/* ---- re-render on language switch (no refetch; data stays cached) ---- */
+
+window.addEventListener("meowarch:langchange", () => {
+  if (lastDevices) renderDevices(lastDevices, { offline: lastOffline });
+  if (lastRelease) renderDetail(lastRelease, { scroll: false });
+});
 
 init();

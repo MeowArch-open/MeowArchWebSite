@@ -2,6 +2,7 @@
 const API = window.MEOWARCH_API_BASE || "http://127.0.0.1:3000/api/v1";
 const REQUEST_TIMEOUT_MS = 8000;
 const TOKEN_KEY = "meowarch_admin_token";
+const t = (key, params) => window.MEOWARCH_I18N.t(key, params);
 
 const authPanel = document.querySelector("#auth-panel");
 const manager = document.querySelector("#manager");
@@ -14,6 +15,8 @@ const releaseEditorEl = document.querySelector("#release-editor");
 let currentDevices = [];
 let editingDevice = null; // device being edited, or null when creating
 let releaseDevice = null; // device whose release editor is open
+let lastRelease = null; // release currently shown in the editor (null = none yet)
+let releaseRendered = false; // true while the release form (not a status note) is displayed
 
 /* ---- token (session-scoped only) ---- */
 
@@ -53,12 +56,12 @@ async function fetchJson(url, { method = "GET", body } = {}) {
     const payload = await res.json().catch(() => ({}));
     if (res.status === 401) {
       clearToken();
-      showAuthPanel("Token expired or invalid — please sign in again.");
+      showAuthPanel(t("a.token_invalid"));
       throw new Error("unauthorized");
     }
     if (!res.ok) {
       const error = new Error(
-        payload.message || `Request failed (${res.status})`,
+        payload.message || t("a.request_failed", { status: res.status }),
       );
       error.status = res.status;
       throw error;
@@ -85,6 +88,8 @@ function showAuthPanel(message) {
   manager.hidden = true;
   releaseManager.hidden = true;
   releaseDevice = null;
+  lastRelease = null;
+  releaseRendered = false;
   const errEl = document.querySelector("#auth-error");
   errEl.textContent = message || "";
   errEl.hidden = !message;
@@ -103,7 +108,7 @@ document
       manager.hidden = false;
     } catch (err) {
       if (err.message !== "unauthorized") {
-        showAuthPanel(`Couldn't reach the API: ${err.message}`);
+        showAuthPanel(t("a.api_unreachable", { msg: err.message }));
       }
     }
   });
@@ -113,16 +118,17 @@ document
 function deviceRow(device) {
   const row = document.createElement("div");
   row.className = "admin-row";
+  const status = device.status || "community";
   row.innerHTML = `
     <div class="admin-row-main">
-      <span class="device-badge is-${escapeHtml(device.status || "community")}">${escapeHtml(device.status || "community")}</span>
+      <span class="device-badge is-${escapeHtml(status)}">${escapeHtml(t(`status.${status}`))}</span>
       <strong>${escapeHtml(device.model)}</strong>
       <span class="admin-row-sub">${escapeHtml(device.brand)} · ${escapeHtml(device.codename)}${device.soc ? ` · ${escapeHtml(device.soc)}` : ""}</span>
     </div>
     <div class="admin-row-actions">
-      <button type="button" class="button button-secondary admin-btn" data-act="release">Release</button>
-      <button type="button" class="button button-secondary admin-btn" data-act="edit">Edit</button>
-      <button type="button" class="button button-danger admin-btn" data-act="delete">Delete</button>
+      <button type="button" class="button button-secondary admin-btn" data-act="release">${escapeHtml(t("a.release_btn"))}</button>
+      <button type="button" class="button button-secondary admin-btn" data-act="edit">${escapeHtml(t("a.edit_btn"))}</button>
+      <button type="button" class="button button-danger admin-btn" data-act="delete">${escapeHtml(t("a.delete_btn"))}</button>
     </div>`;
   row
     .querySelector('[data-act="release"]')
@@ -139,8 +145,7 @@ function deviceRow(device) {
 function renderDeviceList() {
   deviceListEl.innerHTML = "";
   if (currentDevices.length === 0) {
-    deviceListEl.innerHTML =
-      '<div class="state-note">No devices yet. Add one to get started.</div>';
+    deviceListEl.innerHTML = `<div class="state-note">${escapeHtml(t("a.empty_devices"))}</div>`;
     return;
   }
   currentDevices.forEach((device) =>
@@ -150,17 +155,21 @@ function renderDeviceList() {
 
 async function loadDevices() {
   hideStatus();
-  deviceListEl.innerHTML = '<div class="state-note">Loading devices…</div>';
+  deviceListEl.innerHTML = `<div class="state-note">${escapeHtml(t("loading_devices"))}</div>`;
   currentDevices = await fetchJson(`${API}/devices?flavor=meowarchmobile`);
   renderDeviceList();
+}
+
+function refreshDeviceEditorTitle() {
+  document.querySelector("#device-editor-title").textContent = editingDevice
+    ? t("a.edit_title_edit", { model: editingDevice.model })
+    : t("a.edit_title_add");
 }
 
 function openDeviceEditor(device = null) {
   editingDevice = device;
   deviceEditor.hidden = false;
-  document.querySelector("#device-editor-title").textContent = device
-    ? `Edit ${device.model}`
-    : "Add device";
+  refreshDeviceEditorTitle();
   document.querySelector("#device-flavor").value =
     device?.flavor || "meowarchmobile";
   document.querySelector("#device-brand").value = device?.brand || "";
@@ -199,10 +208,10 @@ document
       deviceEditor.hidden = true;
       editingDevice = null;
       await loadDevices();
-      showStatus(`Saved ${body.model}.`);
+      showStatus(t("a.saved_device", { model: body.model }));
     } catch (err) {
       if (err.message !== "unauthorized") {
-        showStatus(`Save failed: ${err.message}`, { warning: true });
+        showStatus(t("a.save_failed", { msg: err.message }), { warning: true });
       }
     }
   });
@@ -210,7 +219,10 @@ document
 async function deleteDevice(device) {
   if (
     !window.confirm(
-      `Delete ${device.model} (${device.codename})? Its release records are kept.`,
+      t("a.delete_confirm", {
+        model: device.model,
+        codename: device.codename,
+      }),
     )
   ) {
     return;
@@ -222,13 +234,14 @@ async function deleteDevice(device) {
     );
     if (releaseDevice?.codename === device.codename) {
       releaseDevice = null;
+      lastRelease = null;
       releaseManager.hidden = true;
     }
     await loadDevices();
-    showStatus(`Deleted ${device.model}.`);
+    showStatus(t("a.deleted", { model: device.model }));
   } catch (err) {
     if (err.message !== "unauthorized") {
-      showStatus(`Delete failed: ${err.message}`, { warning: true });
+      showStatus(t("a.delete_failed", { msg: err.message }), { warning: true });
     }
   }
 }
@@ -237,11 +250,13 @@ async function deleteDevice(device) {
 
 function openReleaseEditor(device) {
   releaseDevice = device;
+  lastRelease = null;
+  releaseRendered = false;
   releaseManager.hidden = false;
-  document.querySelector("#release-title").textContent =
-    `Release info — ${device.model}`;
-  releaseEditorEl.innerHTML =
-    '<div class="state-note">Loading release info…</div>';
+  document.querySelector("#release-title").textContent = t("a.release_title", {
+    model: device.model,
+  });
+  releaseEditorEl.innerHTML = `<div class="state-note">${escapeHtml(t("a.loading_release"))}</div>`;
   releaseManager.scrollIntoView({ behavior: "smooth", block: "start" });
   loadRelease(device);
 }
@@ -251,13 +266,17 @@ async function loadRelease(device) {
     const release = await fetchJson(
       `${API}/releases/latest?flavor=meowarchmobile&codename=${encodeURIComponent(device.codename)}`,
     );
+    lastRelease = release;
     renderReleaseForm(device, release);
   } catch (err) {
     if (err.message === "unauthorized") return;
     if (err.status === 404) {
+      lastRelease = null;
       renderReleaseForm(device, null);
     } else {
-      releaseEditorEl.innerHTML = `<div class="state-note is-warning">Couldn't load release info: ${escapeHtml(err.message)}</div>`;
+      lastRelease = null;
+      releaseRendered = false;
+      releaseEditorEl.innerHTML = `<div class="state-note is-warning">${escapeHtml(t("a.load_release_failed", { msg: err.message }))}</div>`;
     }
   }
 }
@@ -271,94 +290,95 @@ function renderReleaseForm(device, release) {
     <form id="release-form" class="admin-form">
       <div class="field-grid">
         <div class="field">
-          <label for="rel-version">Version *</label>
+          <label for="rel-version">${escapeHtml(t("a.version"))}</label>
           <input id="rel-version" type="text" placeholder="v1.1.0" value="${escapeHtml(release?.version || "")}" required>
         </div>
         <div class="field">
-          <label for="rel-date">Release date</label>
+          <label for="rel-date">${escapeHtml(t("a.release_date"))}</label>
           <input id="rel-date" type="text" placeholder="September 2026" value="${escapeHtml(release?.releaseDate || "")}">
         </div>
         <div class="field">
-          <label for="rel-channel">Channel</label>
+          <label for="rel-channel">${escapeHtml(t("a.channel"))}</label>
           <input id="rel-channel" type="text" placeholder="stable" value="${escapeHtml(release?.channel || "stable")}">
         </div>
         <div class="field check">
           <label class="check-label" for="rel-latest">
             <input id="rel-latest" type="checkbox" ${release?.isLatest ? "checked" : ""}>
-            Mark as latest
+            ${escapeHtml(t("a.mark_latest"))}
           </label>
         </div>
       </div>
 
-      <h4 class="admin-subheading">ISO</h4>
+      <h4 class="admin-subheading">${escapeHtml(t("a.iso"))}</h4>
       <div class="field-grid">
         <div class="field">
-          <label for="iso-url">URL</label>
+          <label for="iso-url">${escapeHtml(t("a.url"))}</label>
           <input id="iso-url" type="text" placeholder="https://…" value="${escapeHtml(iso.url || "")}">
         </div>
         <div class="field">
-          <label for="iso-file">File name</label>
+          <label for="iso-file">${escapeHtml(t("a.file_name"))}</label>
           <input id="iso-file" type="text" value="${escapeHtml(iso.fileName || "")}">
         </div>
         <div class="field">
-          <label for="iso-size">Size</label>
+          <label for="iso-size">${escapeHtml(t("a.size"))}</label>
           <input id="iso-size" type="text" placeholder="~850 MB" value="${escapeHtml(iso.fileSize || "")}">
         </div>
         <div class="field">
-          <label for="iso-sha">SHA256</label>
+          <label for="iso-sha">${escapeHtml(t("a.sha256"))}</label>
           <input id="iso-sha" type="text" pattern="[0-9a-fA-F]{64}" placeholder="64 hex characters" value="${escapeHtml(iso.sha256 || "")}">
         </div>
       </div>
 
-      <h4 class="admin-subheading">Torrent</h4>
+      <h4 class="admin-subheading">${escapeHtml(t("a.torrent"))}</h4>
       <div class="field-grid">
         <div class="field">
-          <label for="torrent-url">URL</label>
+          <label for="torrent-url">${escapeHtml(t("a.url"))}</label>
           <input id="torrent-url" type="text" placeholder="https://…" value="${escapeHtml(torrent.url || "")}">
         </div>
         <div class="field">
-          <label for="torrent-file">File name</label>
+          <label for="torrent-file">${escapeHtml(t("a.file_name"))}</label>
           <input id="torrent-file" type="text" value="${escapeHtml(torrent.fileName || "")}">
         </div>
       </div>
 
-      <h4 class="admin-subheading">Boot image</h4>
+      <h4 class="admin-subheading">${escapeHtml(t("a.boot_image"))}</h4>
       <div class="field-grid">
         <div class="field">
-          <label for="boot-url">URL</label>
+          <label for="boot-url">${escapeHtml(t("a.url"))}</label>
           <input id="boot-url" type="text" placeholder="https://…" value="${escapeHtml(bootImg.url || "")}">
         </div>
         <div class="field">
-          <label for="boot-file">File name</label>
+          <label for="boot-file">${escapeHtml(t("a.file_name"))}</label>
           <input id="boot-file" type="text" value="${escapeHtml(bootImg.fileName || "")}">
         </div>
         <div class="field">
-          <label for="boot-sha">SHA256</label>
+          <label for="boot-sha">${escapeHtml(t("a.sha256"))}</label>
           <input id="boot-sha" type="text" pattern="[0-9a-fA-F]{64}" placeholder="64 hex characters" value="${escapeHtml(bootImg.sha256 || "")}">
         </div>
       </div>
 
-      <h4 class="admin-subheading">Notes</h4>
+      <h4 class="admin-subheading">${escapeHtml(t("a.notes"))}</h4>
       <div class="field-grid">
         <div class="field">
-          <label for="note-android">Android base</label>
+          <label for="note-android">${escapeHtml(t("a.android_base"))}</label>
           <input id="note-android" type="text" placeholder="HyperOS 2" value="${escapeHtml(notes.androidBase || "")}">
         </div>
         <div class="field">
-          <label for="note-kernel">Kernel</label>
+          <label for="note-kernel">${escapeHtml(t("a.kernel"))}</label>
           <input id="note-kernel" type="text" placeholder="Linux 6.6.x" value="${escapeHtml(notes.kernelVersion || "")}">
         </div>
       </div>
 
       <div class="admin-actions">
-        <button class="button button-primary" type="submit">${release ? "Save release" : "Publish release"}</button>
+        <button class="button button-primary" type="submit">${escapeHtml(release ? t("a.save_release") : t("a.publish_release"))}</button>
       </div>
       <p class="admin-hint">${
         release
-          ? `Currently showing ${escapeHtml(release.version)} — saving upserts by flavor + codename + version.`
-          : "This device has no release yet — publish the first one."
+          ? escapeHtml(t("a.showing_version", { version: release.version }))
+          : escapeHtml(t("a.no_release_yet"))
       }</p>
     </form>`;
+  releaseRendered = true;
   document
     .querySelector("#release-form")
     .addEventListener("submit", submitRelease);
@@ -413,11 +433,18 @@ async function submitRelease(event) {
   }
   try {
     await fetchJson(`${API}/admin/releases`, { method: "POST", body });
-    releaseEditorEl.innerHTML = `<div class="state-note">Saved ${escapeHtml(body.version)} for ${escapeHtml(releaseDevice.model)}. ✓</div>`;
-    showStatus(`Saved ${body.version} for ${releaseDevice.model}.`);
+    lastRelease = null; // editor now shows a status note, not the form
+    releaseRendered = false;
+    releaseEditorEl.innerHTML = `<div class="state-note">${escapeHtml(t("a.saved_release", { version: body.version, model: releaseDevice.model }))}</div>`;
+    showStatus(
+      t("a.saved_release", {
+        version: body.version,
+        model: releaseDevice.model,
+      }),
+    );
   } catch (err) {
     if (err.message !== "unauthorized") {
-      releaseEditorEl.innerHTML = `<div class="state-note is-warning">Save failed: ${escapeHtml(err.message)}</div>`;
+      releaseEditorEl.innerHTML = `<div class="state-note is-warning">${escapeHtml(t("a.save_failed", { msg: err.message }))}</div>`;
     }
   }
 }
@@ -425,13 +452,32 @@ async function submitRelease(event) {
 document.querySelector("#close-release-btn").addEventListener("click", () => {
   releaseManager.hidden = true;
   releaseDevice = null;
+  lastRelease = null;
+  releaseRendered = false;
 });
 
 /* ---- sign out + init ---- */
 
 document.querySelector("#signout-btn").addEventListener("click", () => {
   clearToken();
-  showAuthPanel("Signed out.");
+  showAuthPanel(t("a.signed_out"));
+});
+
+/* ---- re-render dynamic UI on language switch (no refetch) ---- */
+
+window.addEventListener("meowarch:langchange", () => {
+  if (manager.hidden) return; // only re-render when signed in
+  renderDeviceList();
+  refreshDeviceEditorTitle();
+  if (!releaseManager.hidden && releaseDevice) {
+    document.querySelector("#release-title").textContent = t(
+      "a.release_title",
+      {
+        model: releaseDevice.model,
+      },
+    );
+    if (releaseRendered) renderReleaseForm(releaseDevice, lastRelease);
+  }
 });
 
 async function init() {
@@ -442,7 +488,7 @@ async function init() {
       manager.hidden = false;
     } catch (err) {
       if (err.message !== "unauthorized") {
-        showAuthPanel(`Couldn't reach the API: ${err.message}`);
+        showAuthPanel(t("a.api_unreachable", { msg: err.message }));
       }
     }
   }
