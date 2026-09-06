@@ -1,0 +1,22 @@
+{
+  "name": "meowarch-api",
+  "version": "1.0.0",
+  "description": "MeowArch / MeowArchMobile release API (v1): public release queries + authenticated upload/release management.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --watch --env-file-if-exists=.env server.js",
+    "seed": "node --env-file-if-exists=.env src/seed.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.24.0",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0"
+  }
+}

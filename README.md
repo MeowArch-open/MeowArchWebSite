@@ -9,17 +9,24 @@ MeowArch 是一个轻量、清爽的 Arch Linux 主题宣传首页。项目使�
 
 - 响应式桌面端与移动端布局
 - 页面顶部流式导航，向下滚动后自动缩小并悬浮
-- 移动端汉堡菜单与锚点导航，桌面端主题切换
+- 移动端汉堡菜单与锚点导航，桌面端主题切换（日月图标交叉淡化）
+- 入场/滚动渐显动画与微交互（主题、按压、菜单逐条展开、设备卡错峰进场），尊重 `prefers-reduced-motion`
 - 使用同一份简化图标派生的浏览器图标、Apple Touch Icon 和品牌图标
 - GitHub Pages 自动部署 workflow
+- 独立运行的 MeowArch Release API（公共查询 + 鉴权上传/发布），见 [`api/README.md`](api/README.md)
 
 ## 目录
 
 ```text
 .
 ├── index.html
+├── download.html
+├── devices.html          # 设备选择页（MeowArchMobile）
 ├── styles.css
 ├── script.js
+├── devices.js            # 设备页：拉取机型/版本、渲染、离线降级
+├── api-config.js         # API 地址一处配置（window.MEOWARCH_API_BASE）
+├── api/                 # MeowArch Release API（Node.js 后端，独立运行）
 ├── assets/
 ├── docs/DEPLOYMENT.md
 ├── .github/workflows/deploy-pages.yml
@@ -60,10 +67,32 @@ npx serve .
 
 ## 修改内容
 
-- 页面结构和文案：`index.html`
+- 页面结构和文案：`index.html`（首页）、`download.html`（下载页）与 `devices.html`（设备选择页）
 - 布局、颜色和响应式规则：`styles.css`
 - 菜单、主题和滚动导航行为：`script.js`
+- 设备选择页逻辑（机型/版本拉取与渲染）：`devices.js`
+- API 地址配置：`api-config.js`
 - 插画、特性图标和 favicon：`assets/`
+
+## API 服务
+
+`api/` 目录是独立的 Node.js 后端（MeowArch Release API v1），提供：
+
+- 公共接口：机型列表 `GET /api/v1/devices`、最新版本与下载信息 `GET /api/v1/releases/latest`
+- 管理/上传接口（Bearer 鉴权）：Azure SAS 直传凭证、方案 B 流式上传、版本元数据入库（自动刷新 `isLatest`）
+- 本地开发模式：无 Azure / 无 MongoDB 也能零配置跑通全流程
+
+```bash
+cd api && npm install && npm start
+```
+
+完整的**使用手册**（快速开始、环境变量配置、三种运行场景模板、端到端发布演练、常见问题）见 [`api/README.md`](api/README.md)。
+
+### 前端接入
+
+- API 地址在 [`api-config.js`](api-config.js) 一处配置（默认 `http://127.0.0.1:3000/api/v1`），部署后改这里即可。
+- 下载页 `download.html`：下拉选择 **MeowArch** 时从 API 拉取桌面版最新信息（失败回退写死的占位内容）；选择 **MeowArchMobile** 时跳转 `devices.html` 设备选择页。
+- 设备选择页 `devices.html`：从 API 拉取机型列表并渲染卡片，点击机型后拉取该机型 latest 版本，展示 iso / torrent / bootImg 下载与 SHA256 校验；API 离线时回退显示内置机型并提示。
 
 顶部网页图标文件为：
 
