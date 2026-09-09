@@ -9,3 +9,6 @@ api/.data/
 
 # docs-site demos (evaluation only, not committed)
 demos/
+
+# 发布产物
+deploy/
