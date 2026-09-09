@@ -6,3 +6,6 @@ dist/
 .cache/
 api/.env
 api/.data/
+
+# docs-site demos (evaluation only, not committed)
+demos/
