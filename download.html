@@ -164,10 +164,11 @@
           <label class="flavor-label" for="flavor-select" data-i18n="d.choose_flavor"
             >Choose your flavor</label
           >
-          <select id="flavor-select" class="flavor-select">
-            <option value="desktop" selected>MeowArch</option>
-            <option value="mobile">MeowArchMobile</option>
+          <select id="flavor-select" class="flavor-select" aria-describedby="flavor-availability">
+            <option value="desktop" disabled data-i18n="d.flavor_desktop_unavailable">MeowArch Desktop (Not available)</option>
+            <option value="mobile" selected data-i18n="d.flavor_mobile">MeowArchMobile</option>
           </select>
+          <span id="flavor-availability" class="sr-only" data-i18n="d.flavor_availability_help">MeowArch Desktop is not available. MeowArchMobile is available.</span>
         </div>
         <a
           class="release-pill reveal reveal-delay-6"

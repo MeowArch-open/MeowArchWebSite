@@ -77,29 +77,46 @@ function stateNote(message, { retry = false } = {}) {
 
 function deviceCard(device) {
   const article = document.createElement("article");
-  article.className = "device-card";
-  article.tabIndex = 0;
-  article.setAttribute("role", "button");
-  article.setAttribute(
-    "aria-label",
-    t("devices.card_aria", { model: device.model }),
-  );
-  article.dataset.codename = device.codename;
   const status = device.status || "community";
+  const unavailable = status === "community";
+
+  article.className = `device-card${unavailable ? " is-unavailable" : ""}`;
+  article.dataset.codename = device.codename;
+
+  if (unavailable) {
+    article.setAttribute("aria-disabled", "true");
+    article.setAttribute(
+      "aria-label",
+      t("devices.card_unavailable_aria", { model: device.model }),
+    );
+  } else {
+    article.tabIndex = 0;
+    article.setAttribute("role", "button");
+    article.setAttribute(
+      "aria-label",
+      t("devices.card_aria", { model: device.model }),
+    );
+  }
+
   article.innerHTML = `
     <span class="device-badge is-${escapeHtml(status)}">${escapeHtml(t(`status.${status}`))}</span>
     <h3>${escapeHtml(device.model)}</h3>
     <p class="device-brand">${escapeHtml(device.brand)} · ${escapeHtml(device.codename)}</p>
     <p class="device-soc">${escapeHtml(device.soc || "")}</p>
+    ${unavailable ? `<p class="device-unavailable-note">${escapeHtml(t("devices.not_available"))}</p>` : ""}
   `;
-  const select = () => selectDevice(device);
-  article.addEventListener("click", select);
-  article.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      select();
-    }
-  });
+
+  if (!unavailable) {
+    const select = () => selectDevice(device);
+    article.addEventListener("click", select);
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        select();
+      }
+    });
+  }
+
   return article;
 }
 
