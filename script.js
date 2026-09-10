@@ -63,14 +63,44 @@ if (menuToggle && mobileMenu) {
   });
 }
 
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    const nightMode = document.body.classList.toggle("night-mode");
+const THEME_STORAGE_KEY = "meowarch_theme";
+
+const applyTheme = (theme, announce = false) => {
+  const nightMode = theme === "night";
+  document.body.classList.toggle("night-mode", nightMode);
+  if (themeToggle) {
     themeToggle.setAttribute("aria-pressed", String(nightMode));
     themeToggle.setAttribute(
       "aria-label",
       nightMode ? "Switch to light theme" : "Switch theme",
     );
+  }
+  if (announce) {
+    window.dispatchEvent(
+      new CustomEvent("meowarch:themechange", { detail: { theme } }),
+    );
+  }
+};
+
+let storedTheme = "light";
+try {
+  storedTheme = localStorage.getItem(THEME_STORAGE_KEY) || "light";
+} catch {
+  // Storage can be unavailable in restricted browsing contexts.
+}
+applyTheme(storedTheme === "night" ? "night" : "light");
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const theme = document.body.classList.contains("night-mode")
+      ? "light"
+      : "night";
+    applyTheme(theme, true);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {
+      // Keep the in-memory theme when storage is unavailable.
+    }
   });
 }
 

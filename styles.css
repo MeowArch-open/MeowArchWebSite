@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/inter-roman-latin.woff2") format("woff2");
+}
+
 :root {
   color-scheme: light;
   --page-bg: #eaf2ff;
@@ -2376,5 +2384,189 @@ html.js-reveal .reveal.is-visible {
     height: 34px;
     padding-right: 22px;
     font-size: 12px;
+  }
+}
+
+/* ===== Integrated documentation shell ===== */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  transform: translateY(-150%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.docs-page {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.docs-shell {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: calc(100dvh - 30px);
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.docs-frame-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(249, 252, 255, 0.94);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.docs-frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #f9fcff;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.docs-frame-wrap.is-loaded .docs-frame {
+  opacity: 1;
+}
+
+.docs-frame:focus-visible {
+  outline: 3px solid rgba(22, 131, 245, 0.48);
+  outline-offset: -3px;
+}
+
+.docs-frame-status,
+.docs-noscript {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 24px;
+  color: var(--muted-deep);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.docs-frame-status[hidden] {
+  display: none;
+}
+
+.docs-noscript {
+  align-content: center;
+  gap: 8px;
+  background: #f9fcff;
+}
+
+.docs-noscript a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+}
+
+@media (max-width: 820px) {
+  .docs-shell {
+    height: calc(100dvh - 20px);
+    margin-bottom: 10px;
+  }
+
+  .docs-frame-wrap {
+    margin: 8px;
+    border-radius: 13px;
+  }
+}
+
+@media (max-width: 540px) {
+  .docs-shell {
+    height: calc(100dvh - 16px);
+    margin-bottom: 8px;
+  }
+
+  .docs-frame-wrap {
+    margin: 6px;
+    border-radius: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-frame,
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* Keep the frame in the flexible row even when the mobile menu is display:none. */
+.docs-shell > .topbar {
+  grid-row: 1;
+}
+
+.docs-shell > .mobile-menu {
+  grid-row: 2;
+}
+
+.docs-shell > .docs-frame-wrap {
+  grid-row: 3;
+}
+
+/* Same-origin main-site navigation keeps the shared shell visually continuous. */
+@view-transition {
+  navigation: auto;
+}
+
+.topbar {
+  view-transition-name: meowarch-topbar;
+}
+
+::view-transition-group(meowarch-topbar) {
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root) {
+  animation: 140ms ease both meowarch-page-out;
+}
+
+::view-transition-new(root) {
+  animation: 300ms cubic-bezier(0.22, 1, 0.36, 1) both meowarch-page-in;
+}
+
+@keyframes meowarch-page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes meowarch-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(meowarch-topbar) {
+    animation-duration: 0.01ms;
   }
 }
