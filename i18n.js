@@ -79,7 +79,7 @@ window.MEOWARCH_I18N = (() => {
     "d.subtitle": "Purrfectly Minimal, Ready to Purr.",
     "d.desc_html":
       'Grab the latest MeowArch ISO, verify it, and boot into a<br class="desktop-only" >lightweight, cat-approved Arch experience.',
-    "d.download_iso": "Download ISO",
+    "d.download_iso": "Supported Devices",
     "d.install_guide": "Install Guide",
     "d.choose_flavor": "Choose your flavor",
     "d.flavor_desktop_unavailable": "MeowArch Desktop (Not available)",
@@ -285,7 +285,7 @@ window.MEOWARCH_I18N = (() => {
     "d.subtitle": "极简优雅，即刻开喵。",
     "d.desc_html":
       '下载最新的 MeowArch ISO，完成校验后启动一个<br class="desktop-only" >轻量、喵认可的 Arch 体验。',
-    "d.download_iso": "下载 ISO",
+    "d.download_iso": "支持的设备",
     "d.install_guide": "安装指南",
     "d.choose_flavor": "选择你的口味",
     "d.flavor_desktop_unavailable": "MeowArch Desktop（暂不可用）",
