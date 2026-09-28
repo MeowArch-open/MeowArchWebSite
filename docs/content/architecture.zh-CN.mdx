@@ -1,0 +1,29 @@
+---
+title: 项目架构
+description: 仓库怎么组织、各部分怎么协作喵。
+section: develop
+order: 1
+icon: code
+landing: false
+sidebar: true
+---
+
+# 项目架构
+:::note note
+当前文档大部分地方还只是占位符喵，正在施工！
+:::
+这一页介绍 MeowArch 的整体结构，帮你快速定位代码喵。
+
+:::note 待补充
+本页还在完善中，欢迎到 [MeowArch 组织](https://github.com/MeowArch-open)补充喵。
+:::
+
+## 仓库总览
+
+- **Manifest**：设备与构建的清单入口喵。
+- **设备树 / 内核**：按 codename 组织的机型适配。
+- **文档站**：即你正在看的这个站，由 `content/*.mdx` + 生成脚本产出。
+
+## 模块协作
+
+各仓库通过 manifest 关联，构建时按清单拉取对应分支，产出最终固件喵。

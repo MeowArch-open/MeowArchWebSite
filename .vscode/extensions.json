@@ -1,0 +1,5 @@
+{
+  "unwantedRecommendations": [
+    "unifiedjs.vscode-mdx"
+  ]
+}

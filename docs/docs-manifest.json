@@ -1,0 +1,140 @@
+{
+  "generatedBy": "scripts/gen-docs.mjs",
+  "note": "Build/test artifact derived from docs/content/*.mdx — not loaded at runtime.",
+  "sections": [
+    {
+      "id": "guide",
+      "dir": "guide/",
+      "label": "docs.guide"
+    },
+    {
+      "id": "quickstart",
+      "dir": "guide/",
+      "label": "docs.quickstart"
+    },
+    {
+      "id": "develop",
+      "dir": "guide/",
+      "label": "docs.develop"
+    },
+    {
+      "id": "downloads",
+      "dir": "",
+      "label": "docs.download"
+    }
+  ],
+  "docs": [
+    {
+      "slug": "welcome",
+      "section": "guide",
+      "order": 0,
+      "icon": "code",
+      "landing": true,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/welcome.html",
+      "contentBase": "../content/welcome",
+      "prev": null,
+      "next": "status"
+    },
+    {
+      "slug": "status",
+      "section": "guide",
+      "order": 1,
+      "icon": "code",
+      "landing": true,
+      "sidebar": true,
+      "apiPanel": true,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/status.html",
+      "contentBase": "../content/status",
+      "prev": "welcome",
+      "next": "download-firmware"
+    },
+    {
+      "slug": "download-firmware",
+      "section": "quickstart",
+      "order": 1,
+      "icon": "download",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/download-firmware.html",
+      "contentBase": "../content/download-firmware",
+      "prev": "status",
+      "next": "install-init"
+    },
+    {
+      "slug": "install-init",
+      "section": "quickstart",
+      "order": 2,
+      "icon": "code",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/install-init.html",
+      "contentBase": "../content/install-init",
+      "prev": "download-firmware",
+      "next": "first-boot"
+    },
+    {
+      "slug": "first-boot",
+      "section": "quickstart",
+      "order": 3,
+      "icon": "help",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/first-boot.html",
+      "contentBase": "../content/first-boot",
+      "prev": "install-init",
+      "next": "architecture"
+    },
+    {
+      "slug": "architecture",
+      "section": "develop",
+      "order": 1,
+      "icon": "code",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/architecture.html",
+      "contentBase": "../content/architecture",
+      "prev": "first-boot",
+      "next": "ci-workflow"
+    },
+    {
+      "slug": "ci-workflow",
+      "section": "develop",
+      "order": 2,
+      "icon": "device",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/ci-workflow.html",
+      "contentBase": "../content/ci-workflow",
+      "prev": "architecture",
+      "next": "commit-style"
+    },
+    {
+      "slug": "commit-style",
+      "section": "develop",
+      "order": 3,
+      "icon": "help",
+      "landing": false,
+      "sidebar": true,
+      "apiPanel": false,
+      "apiPanelBaked": false,
+      "outPath": "docs/guide/commit-style.html",
+      "contentBase": "../content/commit-style",
+      "prev": "ci-workflow",
+      "next": null
+    }
+  ]
+}

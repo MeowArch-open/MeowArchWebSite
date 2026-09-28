@@ -1,0 +1,92 @@
+/* MeowArch highlight.js theme — maps hljs tokens onto the site palette so code
+   blocks match the docs chrome. The docs code surface (.prose pre) is ALWAYS
+   dark (a fixed dark background is asserted for [data-theme="light"] too), so
+   these token colors are pinned to the DARK palette hexes and do NOT flip with
+   the theme — flipping would put light-theme ink (dark blues/greens meant for a
+   light page) onto the dark code block and hurt contrast. Values mirror the
+   hand-rolled terminal spans: comment≈.t-dim(#7b8798), string≈.c-cmd(#a6da95),
+   keyword≈.t-key(#8aadf4). */
+.hljs {
+  color: #e9edf4;
+  background: transparent;
+}
+
+/* comments, quotes -> dim grey (≈ .t-dim) */
+.hljs-comment,
+.hljs-quote {
+  color: #7b8798;
+  font-style: italic;
+}
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: #7b8798;
+}
+
+/* keywords / control / tags -> sky blue (≈ .t-key) */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-name,
+.hljs-subst {
+  color: #8aadf4;
+}
+
+/* attributes, variables, params -> lighter sky */
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-property {
+  color: #b7ceff;
+}
+
+/* strings / regex / added lines -> green (≈ .c-cmd) */
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-meta .hljs-string {
+  color: #a6da95;
+}
+
+/* numbers, symbols, links, bullets -> amber */
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f5a97f;
+}
+
+/* titles, section headers, function & class names -> bright amber */
+.hljs-title,
+.hljs-title.function_,
+.hljs-title.class_,
+.hljs-section {
+  color: #ffc9a3;
+}
+
+/* types / built-ins -> bright amber, kept distinct from plain identifiers */
+.hljs-type,
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-params {
+  color: #ffc9a3;
+}
+
+/* tag punctuation kept quiet */
+.hljs-tag {
+  color: #a8b3c4;
+}
+
+/* removed lines (diff) -> red */
+.hljs-deletion {
+  color: #ee99a0;
+}
+
+/* formatting emphasis */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }

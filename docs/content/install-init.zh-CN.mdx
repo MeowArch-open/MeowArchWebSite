@@ -1,0 +1,80 @@
+---
+title: 安装并初始化
+description: 刷入固件、首次开机与基础设置喵。
+section: quickstart
+order: 2
+icon: code
+landing: false
+sidebar: true
+---
+
+# 安装并初始化
+:::note note
+当前文档大部分地方还只是占位符喵，正在施工！
+:::
+固件下载校验好之后，就可以刷入并做初始化配置了喵。
+
+:::danger 备份优先
+刷机**可能会清空数据**，尽管**保住数据**是**可能**的喵。
+:::
+
+:::tip tip
+如果您希望尝试保留数据，请您务必完成EX步骤喵！如果您无需保留数据，请忽略EX段喵
+:::
+
+## 注意！！！
+**千万不要**试图在**没有解锁bootloader**的手机上尝试，操作前请**先在**Android**获取root权限**，**猫猫没在开玩笑喵**！
+
+:::details EX 1.1 修改recovery 
+1. 下载适用于你设备的twrp喵！（这不就猫猫就不详细展开了喵）
+2. 按以下步骤修补twrp喵。
+**Step 1:** 请先下载或编译 [magiskboot](https://github.com/topjohnwu/Magisk/tree/master/native/src/boot) 和下载 [f2fs_tools](https://github.com/MeowArch-open/Android-static-f2fs-tools/releases/tag/v1.16.0) 喵！
+
+**Step 2:** 使用magiskboot解包twrp和cpio喵！
+
+Linux:
+```term
+❯ magiskboot unpack /path/to/your-twrp.img
+❯ magiskboot cpio 
+```
+
+接着将`f2fs_tools`**解压到当前目录**，例如这样喵：
+
+```term
+❯ tree 
+./
+├── bin
+│     └...
+├── etc
+│     └...
+└── f2fs-tools
+    ├── fsck.f2fs
+    └── mkfs.f2fs
+
+4 directories, 2 files
+```
+
+类似这样就好了喵！
+
+**Step 3:** patch cpio
+
+接下来，我们来patch cpio喵！用下面的命令patch cpio喵。
+
+```term
+❯ magiskboot cpio ramdisk.cpio \
+    "add 0755 system/bin/fsck.f2fs ../f2fs-tools/fsck.f2fs" \
+    "add 0755 system/bin/mkfs.f2fs ../f2fs-tools/mkfs.f2fs" \
+    "ln fsck.f2fs system/bin/resize.f2fs" \
+    "ln fsck.f2fs system/bin/sload.f2fs" \
+    "ln fsck.f2fs system/bin/dump.f2fs"
+❯ magiskboot repack <twrp文件名>.img
+```
+
+在当前目录下找到你的<twrp文件名>-new.img，这个就是修补过的twrp了喵！
+
+
+:::
+
+## 首次初始化
+
+首次开机会进入初始化向导，按提示设置语言、网络与账户即可喵。

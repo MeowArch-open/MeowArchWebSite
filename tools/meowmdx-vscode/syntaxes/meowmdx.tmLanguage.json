@@ -1,0 +1,234 @@
+{
+  "name": "MeowArch MDX",
+  "scopeName": "text.meowmdx",
+  "patterns": [
+    { "include": "#frontmatter" },
+    { "include": "#fenced_code" },
+    { "include": "#directive" },
+    { "include": "#tabmarker" },
+    { "include": "#heading" },
+    { "include": "#blockquote" },
+    { "include": "#hr" },
+    { "include": "#footnote_def" },
+    { "include": "#list" },
+    { "include": "#table_separator" },
+    { "include": "#table_row" },
+    { "include": "#inline" }
+  ],
+  "repository": {
+    "frontmatter": {
+      "begin": "\\A(-{3})[ \\t]*$",
+      "end": "^(-{3})[ \\t]*$",
+      "name": "meta.frontmatter.meowmdx",
+      "beginCaptures": { "1": { "name": "punctuation.definition.frontmatter.begin.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.frontmatter.end.meowmdx" } },
+      "patterns": [
+        {
+          "match": "^\\s*([A-Za-z][A-Za-z0-9_]*)(:)[ \\t]*(.*)$",
+          "captures": {
+            "1": { "name": "entity.name.tag.frontmatter.meowmdx" },
+            "2": { "name": "punctuation.separator.key-value.meowmdx" },
+            "3": { "name": "string.unquoted.frontmatter.meowmdx" }
+          }
+        }
+      ]
+    },
+    "fenced_code": {
+      "patterns": [
+        { "include": "#fence_terminal_named" },
+        { "include": "#fence_json" },
+        { "include": "#fence_js" },
+        { "include": "#fence_python" },
+        { "include": "#fence_rust" },
+        { "include": "#fence_yaml" },
+        { "include": "#fence_diff" },
+        { "include": "#fence_ini" },
+        { "include": "#fence_other" },
+        { "include": "#fence_terminal_bare" }
+      ]
+    },
+    "terminal_body": {
+      "patterns": [
+        { "match": "^[ \\t]*#.*$", "name": "comment.line.number-sign.meowmdx" },
+        { "match": "❯", "name": "keyword.control.prompt.meowmdx" }
+      ]
+    },
+    "fence_terminal_named": {
+      "name": "markup.fenced_code.block.terminal.meowmdx",
+      "begin": "^(`{3})[ \\t]*(term|console|shell|sh|bash)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "patterns": [ { "include": "#terminal_body" } ]
+    },
+    "fence_terminal_bare": {
+      "name": "markup.fenced_code.block.terminal.meowmdx",
+      "begin": "^(`{3})[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "patterns": [ { "include": "#terminal_body" } ]
+    },
+    "fence_json": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(json)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.json",
+      "patterns": [ { "include": "source.json" } ]
+    },
+    "fence_js": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(javascript|js|jsx|ts|typescript)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.js",
+      "patterns": [ { "include": "source.js" } ]
+    },
+    "fence_python": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(python|py)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.python",
+      "patterns": [ { "include": "source.python" } ]
+    },
+    "fence_rust": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(rust|rs)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.rust",
+      "patterns": [ { "include": "source.rust" } ]
+    },
+    "fence_yaml": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(yaml|yml)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.yaml",
+      "patterns": [ { "include": "source.yaml" } ]
+    },
+    "fence_diff": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(diff|patch)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.diff",
+      "patterns": [ { "include": "source.diff" } ]
+    },
+    "fence_ini": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(ini|toml|conf)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "meta.embedded.block.ini",
+      "patterns": [ { "include": "source.ini" } ]
+    },
+    "fence_other": {
+      "name": "markup.fenced_code.block.meowmdx",
+      "begin": "^(`{3})[ \\t]*(\\w+)[ \\t]*$",
+      "end": "^(`{3})[ \\t]*$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.markdown" }, "2": { "name": "fenced_code.block.language.meowmdx" } },
+      "endCaptures": { "1": { "name": "punctuation.definition.markdown" } },
+      "contentName": "markup.raw.block.meowmdx"
+    },
+    "directive": {
+      "name": "meta.directive.meowmdx",
+      "begin": "^(:::)(tip|note|warning|danger|info|tabs|card|cards|steps|details|api-latest)?([ \\t]+.*)?$",
+      "end": "^(:::)[ \\t]*$",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.directive.begin.meowmdx" },
+        "2": { "name": "keyword.control.directive.meowmdx" },
+        "3": { "name": "string.unquoted.directive.args.meowmdx" }
+      },
+      "endCaptures": { "1": { "name": "punctuation.definition.directive.end.meowmdx" } },
+      "patterns": [
+        { "include": "#tabmarker" },
+        { "include": "#directive" },
+        { "include": "#fenced_code" },
+        { "include": "#heading" },
+        { "include": "#blockquote" },
+        { "include": "#list" },
+        { "include": "#inline" }
+      ]
+    },
+    "tabmarker": {
+      "match": "^(===)[ \\t]+(.*)$",
+      "captures": {
+        "1": { "name": "punctuation.definition.tab.meowmdx" },
+        "2": { "name": "entity.name.section.tab.meowmdx" }
+      }
+    },
+    "heading": {
+      "name": "markup.heading.meowmdx",
+      "match": "^(#{1,6})[ \\t]+(.*?)[ \\t]*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.heading.meowmdx" },
+        "2": { "name": "entity.name.section.meowmdx", "patterns": [ { "include": "#inline" } ] }
+      }
+    },
+    "blockquote": {
+      "name": "markup.quote.meowmdx",
+      "begin": "^[ \\t]*(>)[ \\t]?",
+      "end": "$",
+      "beginCaptures": { "1": { "name": "punctuation.definition.quote.meowmdx" } },
+      "patterns": [ { "include": "#blockquote" }, { "include": "#inline" } ]
+    },
+    "hr": {
+      "name": "meta.separator.thematic-break.meowmdx",
+      "match": "^[ \\t]*(-{3,}|\\*{3,}|_{3,})[ \\t]*$"
+    },
+    "footnote_def": {
+      "begin": "^(\\[\\^)([^\\]]+)(\\])(:)[ \\t]*",
+      "end": "$",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.footnote.meowmdx" },
+        "2": { "name": "entity.name.footnote.meowmdx" },
+        "3": { "name": "punctuation.definition.footnote.meowmdx" },
+        "4": { "name": "punctuation.separator.footnote.meowmdx" }
+      },
+      "patterns": [ { "include": "#inline" } ]
+    },
+    "list": {
+      "match": "^[ \\t]*([-*+]|\\d+[.)])[ \\t]+(\\[[ xX]\\][ \\t]+)?",
+      "captures": {
+        "1": { "name": "keyword.control.list.meowmdx punctuation.definition.list.meowmdx" },
+        "2": { "name": "constant.language.task.checkbox.meowmdx" }
+      }
+    },
+    "table_separator": {
+      "name": "punctuation.definition.table.separator.meowmdx",
+      "match": "^[ \\t]*\\|?[ \\t]*:?-{1,}:?[ \\t]*(\\|[ \\t]*:?-{1,}:?[ \\t]*)+\\|?[ \\t]*$"
+    },
+    "table_row": {
+      "name": "markup.table.row.meowmdx",
+      "begin": "^(?=[ \\t]*\\|)",
+      "end": "$",
+      "patterns": [
+        { "match": "\\|", "name": "punctuation.definition.table.cell.meowmdx" },
+        { "include": "#inline" }
+      ]
+    },
+    "inline": {
+      "patterns": [
+        { "match": "`[^`]+`", "name": "markup.inline.raw.string.meowmdx" },
+        { "match": "!\\[[^\\]]*\\]\\([^)]*\\)", "name": "markup.image.meowmdx" },
+        { "match": "\\[[^\\]]*\\]\\([^)]*\\)", "name": "markup.underline.link.meowmdx" },
+        { "match": "\\[\\^[^\\]]+\\]", "name": "markup.footnote.reference.meowmdx" },
+        { "match": "<https?://[^>\\s]+>", "name": "markup.underline.link.autolink.meowmdx" },
+        { "match": "\\bhttps?://[^\\s)>\\]]+", "name": "markup.underline.link.raw.meowmdx" },
+        { "match": "(\\*\\*|__)(?=\\S)(.+?)(?<=\\S)\\1", "name": "markup.bold.meowmdx" },
+        { "match": "(\\*|_)(?=\\S)(.+?)(?<=\\S)\\1", "name": "markup.italic.meowmdx" },
+        { "match": "~~(?=\\S)(.+?)(?<=\\S)~~", "name": "markup.strikethrough.meowmdx" }
+      ]
+    }
+  }
+}

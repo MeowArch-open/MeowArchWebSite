@@ -1,271 +1,261 @@
 <!DOCTYPE html>
-<html lang="en" data-i18n-title="title.admin">
+<html lang="en" data-i18n-title="title.admin" data-theme="dark">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <meta
       name="description"
-      data-i18n-meta="meta.admin"
-      content="MeowArch data management — devices and release info."
+      data-i18n-meta="desc.admin"
+      content="MeowArch release data management — devices and builds."
     >
-    <meta name="theme-color" content="#eaf2ff" >
+    <meta name="theme-color" content="#0c0f14" >
     <meta name="robots" content="noindex" >
-    <title>MeowArch | Data Management</title>
-    <link rel="icon" href="assets/favicon.ico" sizes="any" >
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/favicon-32.png"
-    >
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="64x64"
-      href="assets/favicon-64.png"
-    >
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/apple-touch-icon.png"
-    >
+    <title>Data management · MeowArch</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" >
+    <link rel="icon" href="assets/favicon.ico" sizes="32x32" >
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" >
+    <script>
+      /* Apply the stored/URL theme before first paint to avoid a flash. */
+      (() => {
+        let t = new URLSearchParams(location.search).get("theme");
+        if (t !== "light" && t !== "dark") {
+          try { t = localStorage.getItem("meowarch_theme"); } catch {}
+        }
+        document.documentElement.dataset.theme = t === "light" ? "light" : "dark";
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css" >
   </head>
-  <body>
-    <div class="page-decor" aria-hidden="true">
-      <span class="decor-star star-one">✦</span>
-      <span class="decor-star star-two">✧</span>
-      <span class="decor-star star-three">✦</span>
-      <span class="decor-paw paw-one">✣</span>
-      <span class="decor-paw paw-two">✣</span>
-      <span class="decor-arc arc-one"></span>
-      <span class="decor-arc arc-two"></span>
+  <body id="top">
+    <a class="skip-link" href="#main" data-i18n="aria.skip">Skip to content</a>
+
+    <div class="bg-decor" aria-hidden="true">
+      <span class="bg-paw paw-a">🐾</span>
+      <span class="bg-paw paw-b">🐾</span>
+      <span class="bg-paw paw-c">🐾</span>
     </div>
 
-    <main class="site-shell">
-      <header class="topbar">
-        <a class="brand-lockup" href="index.html" aria-label="MeowArch home" data-i18n-aria="aria.brand">
-          <span class="brand-mark-frame">
-            <img src="assets/meowarch-header-icon.png" alt="" >
-          </span>
-          <span class="brand-copy">
-            <span class="brand-name"
-              ><span>Meow</span><strong>Arch</strong></span
-            >
-            <span class="brand-tagline" data-i18n="brand.tagline">Purrfectly Minimal Arch</span>
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <a class="brand" href="index.html" aria-label="MeowArch home" data-i18n-aria="aria.brand">
+          <svg class="brand-mark" viewBox="0 0 64 60" aria-hidden="true">
+            <defs>
+              <linearGradient id="brand-fur" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffc9a3" ></stop>
+                <stop offset="1" stop-color="#ef9464" ></stop>
+              </linearGradient>
+            </defs>
+            <path fill="url(#brand-fur)" fill-rule="evenodd" d="M 32 14 L 21 4.5 Q 18 2.2 16.5 5 L 8.5 25 Q 6 31 6 37 L 6 42 Q 6 56 20 56 L 44 56 Q 58 56 58 42 L 58 37 Q 58 31 55.5 25 L 47.5 5 Q 46 2.2 43 4.5 L 32 14 Z M 25 56 L 25 47.5 Q 25 40.5 32 40.5 Q 39 40.5 39 47.5 L 39 56 Z M 22.5 31.5 a 3.4 3.4 0 1 0 0.01 0 Z M 41.5 31.5 a 3.4 3.4 0 1 0 0.01 0 Z M 29.5 35.2 L 34.5 35.2 L 32 38.4 Z"></path>
+          </svg>
+          <span>
+            <span class="brand-name">Meow<em>Arch</em></span>
+            <span class="brand-tag" data-i18n="brand.tagline">purrfectly minimal arch</span>
           </span>
         </a>
 
-        <nav class="desktop-nav" aria-label="Primary navigation" data-i18n-aria="aria.nav">
-          <a class="nav-link" href="index.html" data-i18n="nav.home">Home</a>
-          <a class="nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
-          <a class="nav-link is-active" href="download.html" aria-current="page" data-i18n="nav.download"
-            >Download</a
-          >
-          <a class="nav-link" href="/docs/" data-i18n="nav.docs">Docs</a>
-          <a class="nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
+        <nav class="nav" aria-label="Primary navigation" data-i18n-aria="aria.nav">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="index.html#features" data-i18n="nav.features">Features</a>
+          <a href="index.html#latest" data-i18n="nav.latest">Latest</a>
+          <a href="download.html" data-i18n="nav.download">Download</a>
+          <a href="/docs/" data-i18n="nav.docs">Docs</a>
+          <a href="index.html#community" data-i18n="nav.community">Community</a>
         </nav>
 
         <div class="top-actions">
           <button
             class="icon-button theme-toggle"
             type="button"
-            aria-label="Switch theme" data-i18n-aria="aria.theme"
-            aria-pressed="false"
+            aria-label="Toggle light / dark theme"
+            data-i18n-aria="aria.theme"
+            aria-pressed="true"
           >
-            <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="3.5"></circle>
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"
-              ></path>
-            </svg>
-            <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"
-              ></path>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" ></circle>
+              <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19" ></path>
             </svg>
           </button>
           <a
             class="icon-button github-link"
-            href="https://github.com/xingguangcuican6666/MeowArchWebSite"
+            href="https://github.com/MeowArch-open/MeowArchWebSite"
             target="_blank"
             rel="noreferrer"
-            aria-label="MeowArch on GitHub" data-i18n-aria="aria.github"
+            aria-label="MeowArch on GitHub"
+            data-i18n-aria="aria.github"
           >
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M15 22v-4.1c.1-1 .1-1.5-.5-2.1 3.2-.4 6.5-1.6 6.5-7A5.5 5.5 0 0 0 19.5 5c.1-.4.5-1.8-.1-3.7 0 0-1.2-.4-4 1.5a13.7 13.7 0 0 0-6.8 0c-2.8-1.9-4-1.5-4-1.5C4 3.2 4.4 4.6 4.5 5A5.5 5.5 0 0 0 3 8.8c0 5.4 3.3 6.6 6.5 7-.6.6-.6 1.1-.5 2.1V22"
-              ></path>
-              <path d="M9 18c-3.5 1.6-3.5-1.8-5-2"></path>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 22v-4.1c.1-1 .1-1.5-.5-2.1 3.2-.4 6.5-1.6 6.5-7A5.5 5.5 0 0 0 19.5 5c.1-.4.5-1.8-.1-3.7 0 0-1.2-.4-4 1.5a13.7 13.7 0 0 0-6.8 0c-2.8-1.9-4-1.5-4-1.5C4 3.2 4.4 4.6 4.5 5A5.5 5.5 0 0 0 3 8.8c0 5.4 3.3 6.6 6.5 7-.6.6-.6 1.1-.5 2.1V22" ></path>
+              <path d="M9 18c-3.5 1.6-3.5-1.8-5-2" ></path>
             </svg>
           </a>
-          <select class="lang-select" aria-label="Language" data-i18n-aria="lang.label">
-            <option value="en">English</option>
+          <select class="lang-select" aria-label="Language" data-i18n-aria="aria.lang">
+            <option value="en">EN</option>
             <option value="zh-CN">中文</option>
           </select>
+          <a class="btn btn-primary btn-sm top-cta" href="download.html" data-i18n="cta.download">Download</a>
           <button
             class="icon-button menu-toggle"
             type="button"
-            aria-label="Open navigation" data-i18n-aria="aria.menu"
+            aria-label="Open navigation menu"
+            data-i18n-aria="aria.menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" ></path>
             </svg>
           </button>
         </div>
-      </header>
-
-      <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
-        <a class="mobile-nav-link" href="index.html" data-i18n="nav.home">Home</a>
-        <a class="mobile-nav-link" href="index.html#features" data-i18n="nav.features">Features</a>
-        <a
-          class="mobile-nav-link is-active"
-          href="download.html"
-          aria-current="page" data-i18n="nav.download"
-          >Download</a
-        >
-        <a class="mobile-nav-link" href="/docs/" data-i18n="nav.docs">Docs</a>
-        <a class="mobile-nav-link" href="index.html#community" data-i18n="nav.community">Community</a>
       </div>
+    </header>
 
-      <section class="download-hero" id="top" aria-labelledby="admin-title">
-        <a class="back-link reveal reveal-delay-1" href="devices.html" data-i18n-html="admin.back_html"
-          ><span aria-hidden="true">←</span> Back to devices</a
-        >
-        <h1 id="admin-title" class="download-title reveal reveal-delay-2" data-i18n-html="admin.title_html">
-          Data <strong>Management</strong>
-        </h1>
-        <p class="download-subtitle reveal reveal-delay-3" data-i18n="admin.subtitle">
-          Add, edit and remove devices and their release info.
+    <nav class="mobile-menu" id="mobile-menu" aria-hidden="true" data-i18n-aria="aria.nav">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="index.html#features" data-i18n="nav.features">Features</a>
+      <a href="index.html#latest" data-i18n="nav.latest">Latest</a>
+      <a href="download.html" data-i18n="nav.download">Download</a>
+      <a href="/docs/" data-i18n="nav.docs">Docs</a>
+      <a href="index.html#community" data-i18n="nav.community">Community</a>
+    </nav>
+
+    <main class="shell" id="main">
+      <section class="page-hero" aria-labelledby="admin-title">
+        <a class="crumb" href="index.html" data-i18n="ad.crumb">← back home</a>
+        <h1 id="admin-title" data-i18n-html="ad.title_html">Data <em>management</em></h1>
+        <p class="sub" data-i18n="ad.sub">
+          Maintainer tools — manage devices and publish builds via the Release API.
         </p>
       </section>
 
-      <section class="admin-panel reveal" id="auth-panel" aria-label="Sign in" data-i18n-aria="a.auth_aria">
-        <h2 class="admin-heading" data-i18n="a.token_title">Admin token</h2>
-        <p class="admin-hint" data-i18n-html="a.token_hint_html">
-          Paste your API admin token (your <code>ADMIN_SECRET_KEY</code>, or the
-          dev token printed at startup). It is kept only in this tab's session.
-        </p>
-        <form id="auth-form" class="admin-form">
-          <div class="field">
-            <label for="token-input" data-i18n="a.token_label">Bearer token</label>
-            <input
-              id="token-input"
-              type="password"
-              autocomplete="new-password"
-              spellcheck="false"
-              placeholder="Paste admin token…"
-              data-i18n-placeholder="a.token_placeholder"
-              required
-            >
-          </div>
-          <div class="admin-actions">
-            <button class="button button-primary" type="submit" data-i18n="a.unlock">Unlock</button>
-          </div>
-        </form>
-        <div id="auth-error" class="admin-error" hidden></div>
-      </section>
-
-      <section class="admin-panel reveal" id="manager" hidden aria-label="Device management" data-i18n-aria="a.manager_aria">
-        <div class="admin-head">
-          <h2 class="admin-heading" data-i18n="a.devices">Devices</h2>
-          <div class="admin-actions">
-            <button id="signout-btn" class="button button-secondary" type="button" data-i18n="a.sign_out">
-              Sign out
-            </button>
-            <button
-              id="add-device-btn"
-              data-i18n="a.add_device"
-              class="button button-secondary"
-              type="button"
-            >
-              ＋ Add device
-            </button>
-          </div>
-        </div>
-        <div id="admin-status" class="admin-error" hidden></div>
-        <div id="device-list" class="admin-list" aria-live="polite"></div>
-
-        <section class="admin-editor" id="device-editor" hidden aria-label="Device editor" data-i18n-aria="a.editor_aria">
-          <h3 class="admin-subheading" id="device-editor-title">Add device</h3>
-          <form id="device-form" class="admin-form">
+      <!-- ============ token gate ============ -->
+      <section id="auth-panel" class="admin-gate">
+        <div class="card card--ear">
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2.5" ></rect><path d="M8 10V7.5a4 4 0 0 1 8 0V10" ></path><path d="M12 14v2.5" ></path></svg>
+          </span>
+          <h2 style="font-size: 22px" data-i18n="ad.gate_title">Maintainer access</h2>
+          <p style="margin-top: 10px; color: var(--text-2); font-size: 14.5px" data-i18n="ad.gate_desc">
+            Paste your admin token to unlock device and release management. It stays in this browser
+            tab only.
+          </p>
+          <form id="auth-form" style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px">
             <div class="field">
-              <label for="device-flavor" data-i18n="a.flavor">Flavor</label>
-              <select id="device-flavor" class="flavor-select">
-                <option value="meowarchmobile" selected data-i18n="a.opt_mobile">MeowArchMobile</option>
-                <option value="meowarch" data-i18n="a.opt_desktop">MeowArch (desktop)</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="device-brand" data-i18n="a.brand">Brand *</label>
-              <input id="device-brand" type="text" placeholder="Xiaomi" required>
-            </div>
-            <div class="field">
-              <label for="device-model" data-i18n="a.model">Model *</label>
-              <input id="device-model" type="text" placeholder="Redmi K80" required>
-            </div>
-            <div class="field">
-              <label for="device-codename" data-i18n="a.codename">Codename *</label>
+              <label for="token-input" data-i18n="ad.token_label">Admin token</label>
               <input
-                id="device-codename"
-                type="text"
-                placeholder="munch"
-                pattern="[A-Za-z0-9_\-]+"
+                id="token-input"
+                type="password"
+                autocomplete="off"
+                spellcheck="false"
+                data-i18n-placeholder="ad.token_ph"
+                placeholder="Bearer token from the API deployment"
                 required
               >
-              <small class="field-note" data-i18n-html="a.codename_note_html"
-                >Letters, digits, <code>_</code> and <code>-</code> only.
-                Locked after creation.</small
-              >
             </div>
-            <div class="field">
-              <label for="device-soc" data-i18n="a.soc">SoC</label>
-              <input id="device-soc" type="text" placeholder="Snapdragon 8 Gen 3">
-            </div>
-            <div class="field">
-              <label for="device-status" data-i18n="a.status">Status</label>
-              <select id="device-status" class="flavor-select">
-                <option value="official" data-i18n="a.status_official">Official</option>
-                <option value="community" selected data-i18n="a.status_community">Community</option>
-              </select>
-            </div>
-            <div class="admin-actions">
-              <button class="button button-primary" type="submit" data-i18n="a.save_device">Save device</button>
-              <button id="device-cancel-btn" class="button button-secondary" type="button" data-i18n="a.cancel">
-                Cancel
-              </button>
+            <div class="admin-actions" style="margin-top: 0">
+              <button class="btn btn-primary" type="submit" data-i18n="ad.unlock">Unlock</button>
             </div>
           </form>
-        </section>
-      </section>
-
-      <section class="admin-panel reveal" id="release-manager" hidden aria-label="Release editor" data-i18n-aria="a.release_aria">
-        <div class="admin-head">
-          <h2 class="admin-heading" id="release-title">Release info</h2>
-          <button
-            id="close-release-btn"
-            data-i18n="a.close"
-            class="button button-secondary"
-            type="button"
-          >
-            Close
-          </button>
+          <p id="auth-error" class="state-note is-error" style="margin-top: 16px" hidden></p>
         </div>
-        <div id="release-editor" aria-live="polite"></div>
       </section>
 
-      <footer class="site-footer">
-        <span>MeowArch</span>
-        <span data-i18n="footer.tagline">Built with Arch, care, and a little purr.</span>
-        <a href="#top" data-i18n-html="footer.back_top_html">Back to top <span aria-hidden="true">↑</span></a>
-      </footer>
+      <!-- ============ manager ============ -->
+      <section id="manager" hidden>
+        <div class="section-head" style="margin-bottom: 18px">
+          <span class="kicker">release api</span>
+          <h2 style="font-size: clamp(22px, 3vw, 28px)" data-i18n="ad.devices_title">Devices</h2>
+        </div>
+        <div class="admin-actions" style="margin: 0 0 16px">
+          <button class="btn btn-primary btn-sm" id="add-device-btn" type="button" data-i18n="ad.add_device">Add device</button>
+          <button class="btn btn-ghost btn-sm" id="signout-btn" type="button" data-i18n="ad.sign_out">Sign out</button>
+        </div>
+        <div class="panel" id="device-list" aria-live="polite"></div>
+
+        <!-- device editor -->
+        <div class="panel panel-pad" id="device-editor" hidden style="margin-top: 18px">
+          <h3 id="device-editor-title" style="font-size: 19px; margin-bottom: 18px">Add a device</h3>
+          <form id="device-form">
+            <div class="field-grid">
+              <div class="field">
+                <label for="device-flavor" data-i18n="ad.flavor">Flavor</label>
+                <select id="device-flavor">
+                  <option value="meowarchmobile" data-i18n="ad.flavor_mobile">MeowArchMobile</option>
+                  <option value="meowarch" data-i18n="ad.flavor_desktop">MeowArch Desktop</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="device-status" data-i18n="ad.status">Status</label>
+                <select id="device-status">
+                  <option value="official" data-i18n="status.official">Official</option>
+                  <option value="community" data-i18n="status.community">Community</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="device-brand" data-i18n="ad.brand">Brand</label>
+                <input id="device-brand" type="text" placeholder="Xiaomi" required >
+              </div>
+              <div class="field">
+                <label for="device-model" data-i18n="ad.model">Model</label>
+                <input id="device-model" type="text" placeholder="Redmi K80" required >
+              </div>
+              <div class="field">
+                <label for="device-codename" data-i18n="ad.codename">Codename</label>
+                <input id="device-codename" type="text" placeholder="zorn" pattern="[A-Za-z0-9_-]+" required >
+              </div>
+              <div class="field">
+                <label for="device-soc" data-i18n="ad.soc">SoC</label>
+                <input id="device-soc" type="text" placeholder="Snapdragon 8 Gen 3" >
+              </div>
+            </div>
+            <p class="admin-hint" data-i18n="ad.codename_hint">
+              Letters, digits, “-” and “_” only. Changing it creates a new device.
+            </p>
+            <div class="admin-actions">
+              <button class="btn btn-primary" type="submit" data-i18n="ad.save">Save device</button>
+              <button class="btn btn-ghost" type="button" id="device-cancel-btn" data-i18n="ad.cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- release editor -->
+        <div class="panel panel-pad" id="release-manager" hidden style="margin-top: 18px">
+          <div class="detail-head">
+            <h3 id="release-title" style="font-size: 19px">Release</h3>
+            <button class="btn btn-ghost btn-sm" id="close-release-btn" type="button" data-i18n="ad.close">Close</button>
+          </div>
+          <div id="release-editor" style="margin-top: 18px"></div>
+        </div>
+      </section>
     </main>
 
-    <script src="api-config.js"></script>
-    <script src="i18n.js"></script>
-    <script src="script.js"></script>
-    <script src="admin.js"></script>
+    <div class="status-line" id="status-line" role="status" aria-live="polite"></div>
+
+    <footer class="footer">
+      <div class="shell">
+        <div class="footer-inner">
+          <span class="f-brand">
+            <img src="assets/logo.svg" alt="" >
+            MeowArch
+          </span>
+          <span data-i18n="footer.tagline">Built with Arch, care, and a quiet purr.</span>
+          <span class="f-links">
+            <a href="/docs/" data-i18n="footer.docs">Documentation</a>
+            <a href="https://github.com/MeowArch-open/MeowArchWebSite" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+            <a href="admin.html" data-i18n="footer.admin">Admin</a>
+            <a href="#top" data-i18n="footer.back_top">Back to top ↑</a>
+          </span>
+        </div>
+        <p class="footer-note" data-i18n="footer.disclaimer">
+          MeowArch is a community project and is not affiliated with Arch Linux.
+        </p>
+      </div>
+    </footer>
+
+    <script src="api-config.js" ></script>
+    <script src="js/i18n.js" ></script>
+    <script src="js/api.js" ></script>
+    <script src="js/render.js" ></script>
+    <script src="js/ui.js" ></script>
+    <script src="js/admin.js" ></script>
   </body>
 </html>

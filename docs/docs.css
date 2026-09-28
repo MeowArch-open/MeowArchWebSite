@@ -1,0 +1,839 @@
+/* ============================================================
+   MeowArch Docs — layout & prose styles.
+   Loads AFTER the main ../styles.css and reuses its design
+   tokens (.topbar, .btn, .card, .terminal …). This file only
+   adds the docs shell: sidebar, TOC, prose, callouts, pager.
+   ============================================================ */
+
+/* ---------- shell layout ---------- */
+.docs-page .shell {
+  max-width: 1240px;
+}
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+  padding-bottom: 20px;
+}
+
+/* ---------- sidebar ---------- */
+.docs-side {
+  position: sticky;
+  top: calc(var(--topbar-h) + 22px);
+}
+
+.docs-side-toggle {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.docs-side-toggle .chev {
+  transition: transform 0.2s ease;
+  color: var(--text-3);
+}
+
+.docs-side.is-open .docs-side-toggle .chev {
+  transform: rotate(180deg);
+}
+
+.docs-side nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docs-side-title {
+  margin: 20px 0 6px;
+  padding-left: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.docs-side-title:first-child {
+  margin-top: 0;
+}
+
+.docs-side nav a {
+  display: block;
+  padding: 8px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.docs-side nav a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.docs-side nav a.is-active {
+  color: var(--amber-2);
+  border-left-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 9%, transparent);
+  font-weight: 600;
+}
+
+/* ---------- TOC (right rail) ---------- */
+.docs-toc {
+  display: none;
+}
+
+@media (min-width: 1180px) {
+  .docs-layout.has-toc {
+    grid-template-columns: 224px minmax(0, 1fr) 176px;
+  }
+
+  .docs-toc {
+    display: block;
+    position: sticky;
+    top: calc(var(--topbar-h) + 22px);
+    font-size: 12.8px;
+  }
+
+  .docs-toc-title {
+    margin: 4px 0 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .docs-toc a {
+    display: block;
+    padding: 4px 0 4px 12px;
+    border-left: 1px solid var(--line);
+    color: var(--text-3);
+    line-height: 1.45;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .docs-toc a:hover {
+    color: var(--text);
+  }
+
+  .docs-toc a.is-active {
+    color: var(--amber-2);
+    border-left-color: var(--amber);
+  }
+}
+
+/* ---------- prose ---------- */
+.prose {
+  min-width: 0;
+  max-width: 72ch;
+}
+
+.prose h1 {
+  font-size: clamp(28px, 3.6vw, 38px);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.prose .prose-lede {
+  color: var(--text-2);
+  font-size: 16.5px;
+  margin-bottom: 8px;
+}
+
+.prose h2 {
+  margin: 2.1em 0 0.7em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--line);
+  font-size: 23px;
+  letter-spacing: -0.01em;
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+
+.prose h2:first-of-type {
+  margin-top: 1.6em;
+}
+
+.prose h3 {
+  margin: 1.6em 0 0.5em;
+  font-size: 18.5px;
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+
+.prose h4 {
+  margin: 1.4em 0 0.4em;
+  font-size: 16px;
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+
+.prose h5 {
+  margin: 1.3em 0 0.4em;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+
+.prose h6 {
+  margin: 1.2em 0 0.4em;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  scroll-margin-top: calc(var(--topbar-h) + 18px);
+}
+
+/* hover-reveal heading anchors (added by the renderer, not the source) */
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  position: relative;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6) .anchor {
+  margin-left: 0.35em;
+  color: var(--text-3);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6):hover .anchor,
+.prose :is(h1, h2, h3, h4, h5, h6) .anchor:focus-visible {
+  opacity: 1;
+}
+
+.prose .anchor:hover {
+  color: var(--amber);
+}
+
+.prose p {
+  margin: 0.85em 0;
+  color: var(--text-2);
+}
+
+.prose strong {
+  color: var(--text);
+}
+
+.prose del {
+  color: var(--text-3);
+  text-decoration-color: color-mix(in srgb, var(--text-3) 70%, transparent);
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-s);
+}
+
+.prose ul,
+.prose ol {
+  margin: 0.85em 0;
+  padding-left: 1.4em;
+  color: var(--text-2);
+}
+
+.prose li {
+  margin: 0.35em 0;
+}
+
+.prose li::marker {
+  color: var(--amber);
+}
+
+/* nested lists sit tighter than top-level ones */
+.prose li > ul,
+.prose li > ol {
+  margin: 0.3em 0 0.2em;
+}
+
+/* task lists: drop the marker, align the checkbox with the text */
+.prose ul.task-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose .task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55em;
+}
+
+.prose .task-item input[type="checkbox"] {
+  margin-top: 0.28em;
+  accent-color: var(--amber);
+  flex: none;
+}
+
+.prose a {
+  color: var(--sky);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--sky) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--sky-2);
+  text-decoration-color: var(--sky);
+}
+
+.prose code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--amber-2);
+}
+
+.prose pre {
+  margin: 1.1em 0;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-soft) 88%, #000 12%);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13.2px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+[data-theme="light"] .prose pre {
+  background: #232936;
+  color: #ccd6e6;
+  border-color: #2c3547;
+}
+
+.prose pre .c-cmd,
+.prose pre .t-prompt {
+  color: #a6da95;
+}
+
+.prose pre .t-dim {
+  color: #6d7889;
+}
+
+.prose pre .t-key {
+  color: #8aadf4;
+}
+
+/* release panel inside prose: keep artifact rows calm, not link-blue */
+.prose a.artifact,
+.prose a.artifact:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.prose a.artifact:hover {
+  border-color: var(--amber);
+}
+
+/* ---------- tables ---------- */
+.table-scroll {
+  margin: 1.1em 0;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.prose th {
+  padding: 11px 14px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 11px 14px;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose td b,
+.prose td strong {
+  color: var(--text);
+}
+
+/* column alignment (renderer emits these from the separator-row colons) */
+.prose .ta-left { text-align: left; }
+.prose .ta-center { text-align: center; }
+.prose .ta-right { text-align: right; }
+
+/* ---------- callouts ---------- */
+.callout {
+  display: flex;
+  gap: 12px;
+  margin: 1.2em 0;
+  padding: 14px 17px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--sky);
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+}
+
+.callout .co-icon {
+  flex: none;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 14.5px;
+}
+
+.callout .co-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  color: var(--sky);
+}
+
+.callout.is-tip {
+  border-left-color: var(--green);
+}
+
+.callout.is-tip .co-label {
+  color: var(--green);
+}
+
+.callout.is-warning {
+  border-left-color: var(--yellow);
+}
+
+.callout.is-warning .co-label {
+  color: var(--yellow);
+}
+
+.callout.is-danger {
+  border-left-color: var(--red);
+}
+
+.callout.is-danger .co-label {
+  color: var(--red);
+}
+
+.callout.is-info {
+  border-left-color: var(--sky);
+}
+
+.callout.is-info .co-label {
+  color: var(--sky);
+}
+
+/* ---------- blockquotes ---------- */
+.prose blockquote {
+  margin: 1.1em 0;
+  padding: 0.2em 1.1em;
+  border-left: 3px solid var(--line-2, var(--line));
+  color: var(--text-3);
+}
+
+.prose blockquote p {
+  color: inherit;
+}
+
+.prose blockquote blockquote {
+  margin: 0.6em 0;
+}
+
+/* ---------- horizontal rule ---------- */
+.prose hr {
+  margin: 2em 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- footnotes ---------- */
+.prose .footnotes {
+  margin-top: 2.4em;
+  font-size: 13.5px;
+  color: var(--text-3);
+}
+
+.prose .footnotes hr {
+  margin: 0 0 1em;
+}
+
+.prose .footnotes ol {
+  padding-left: 1.3em;
+}
+
+.prose .fn-ref {
+  font-size: 0.8em;
+  line-height: 0;
+}
+
+.prose .fn-ref a {
+  text-decoration: none;
+  padding: 0 2px;
+}
+
+.prose .fn-back {
+  margin-left: 0.4em;
+  text-decoration: none;
+}
+
+/* ---------- tabs ---------- */
+.tabs {
+  margin: 1.3em 0;
+}
+
+.tab-strip {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.tab-strip .tab {
+  padding: 8px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: var(--text-3);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.tab-strip .tab:hover {
+  color: var(--text);
+}
+
+.tab-strip .tab[aria-selected="true"] {
+  color: var(--amber-2);
+  border-bottom-color: var(--amber);
+}
+
+.tab-panel {
+  padding-top: 0.4em;
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
+/* ---------- details ---------- */
+.prose .details {
+  margin: 1.2em 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+  overflow: hidden;
+}
+
+.prose .details > summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none;
+}
+
+.prose .details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose .details > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.5em;
+  color: var(--text-3);
+  transition: transform 0.18s ease;
+}
+
+.prose .details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.prose .details-body {
+  padding: 0 16px 4px;
+}
+
+/* ---------- code block (wrapper injected by docs.js around each <pre>) ---------- */
+/* The code surface is always dark (see .prose pre), so the head chrome uses
+   fixed dark-palette inks rather than theme vars that would flip to light ink. */
+.code-block {
+  margin: 1.1em 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+[data-theme="light"] .code-block {
+  border-color: #2c3547;
+}
+
+.code-block pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 12px 6px 16px;
+  background: #1a1f2b;
+  border-bottom: 1px solid #2c3547;
+}
+
+.code-lang {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7b8798;
+}
+
+.code-copy {
+  border: 1px solid #2c3547;
+  border-radius: 6px;
+  padding: 2px 10px;
+  background: none;
+  color: #a8b3c4;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.code-copy:hover {
+  color: #e9edf4;
+  border-color: #f5a97f;
+}
+
+.code-copy.is-done {
+  color: #a6da95;
+  border-color: #a6da95;
+}
+
+/* ---------- card / step grids (:::cards, :::steps) ---------- */
+.prose .card-grid {
+  margin: 1.5em 0;
+}
+
+.prose .doc-card {
+  padding: 20px;
+}
+
+.prose .doc-card .feature-icon {
+  margin-bottom: 12px;
+}
+
+.prose .doc-card h3 {
+  margin: 0;
+  font-size: 16.5px;
+}
+
+.prose .doc-card > :last-child {
+  margin-bottom: 0;
+}
+
+.prose .doc-card p {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.prose .doc-card .card-num {
+  color: var(--amber-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* linked cards: kill the prose underline, keep the lift/hover from styles.css */
+.prose a.doc-card,
+.prose a.doc-card:hover {
+  text-decoration: none;
+}
+
+/* ---------- inline live API panel (:::api-latest) ---------- */
+/* The panel chrome (.section-head/.panel/.panel-pad) is styled in styles.css;
+   this just gives the in-body placeholder breathing room and resets prose
+   spacing on the injected heading. */
+.prose [data-component="api-latest"] {
+  display: block;
+  margin: 1.6em 0;
+}
+
+.prose [data-component="api-latest"] .section-head h2 {
+  margin: 8px 0 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.prose [data-component="api-latest"] .section-head .sub {
+  margin: 4px 0 0;
+}
+
+/* ---------- page actions toolbar (复制 Markdown / 打开) ---------- */
+.doc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 4px 0 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.doc-open {
+  position: relative;
+}
+
+.doc-open > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.doc-open > summary::-webkit-details-marker {
+  display: none;
+}
+
+.doc-open > summary::after {
+  content: "▾";
+  margin-left: 6px;
+  color: var(--text-3);
+}
+
+.doc-open-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+}
+
+.doc-open-menu a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text-2);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.doc-open-menu a:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ---------- pager ---------- */
+.docs-pager {
+  display: flex;
+  gap: 14px;
+  margin-top: 3em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--line);
+}
+
+.docs-pager a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 17px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.docs-pager a:hover {
+  border-color: var(--amber);
+  transform: translateY(-2px);
+}
+
+.docs-pager a.is-next {
+  text-align: right;
+}
+
+.docs-pager .pg-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.docs-pager .pg-title {
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.docs-pager a:hover .pg-title {
+  color: var(--amber-2);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .docs-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .docs-side {
+    position: static;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .docs-side-toggle {
+    display: flex;
+  }
+
+  .docs-side nav {
+    display: none;
+    padding: 6px 12px 14px;
+  }
+
+  .docs-side.is-open nav {
+    display: flex;
+  }
+}

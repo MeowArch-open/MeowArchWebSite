@@ -1,0 +1,115 @@
+{
+  "Doc frontmatter (full)": {
+    "prefix": ["fm", "frontmatter"],
+    "description": "MeowArch MDX frontmatter with the common fields",
+    "body": [
+      "---",
+      "title: ${1:Page title}",
+      "description: ${2:One-line summary.}",
+      "section: ${3|guide,downloads|}",
+      "order: ${4:1}",
+      "icon: ${5|code,download,help,device|}",
+      "landing: ${6|true,false|}",
+      "sidebar: ${7|true,false|}",
+      "apiPanel: ${8|false,true,inline|}",
+      "---",
+      "",
+      "# $1",
+      "",
+      "${9:The first paragraph becomes the lede.}",
+      "$0"
+    ]
+  },
+  "Doc frontmatter (minimal)": {
+    "prefix": "fmmin",
+    "description": "Minimal required frontmatter (title/description/section/order)",
+    "body": [
+      "---",
+      "title: ${1:Page title}",
+      "description: ${2:One-line summary.}",
+      "section: ${3|guide,downloads|}",
+      "order: ${4:1}",
+      "---",
+      "",
+      "# $1",
+      "",
+      "${5:The first paragraph becomes the lede.}",
+      "$0"
+    ]
+  },
+  "Callout": {
+    "prefix": ["callout", "tip", "note", "warning", "danger", "info"],
+    "description": ":::tip|note|warning|danger|info admonition",
+    "body": [":::${1|tip,note,warning,danger,info|} ${2:Title}", "${3:Body text.}", ":::", "$0"]
+  },
+  "Tabs": {
+    "prefix": "tabs",
+    "description": ":::tabs with === panels",
+    "body": [":::tabs", "=== ${1:English}", "${2:Panel one.}", "=== ${3:中文}", "${4:面板二。}", ":::", "$0"]
+  },
+  "Details": {
+    "prefix": "details",
+    "description": ":::details collapsible block",
+    "body": [":::details ${1:Summary}", "${2:Hidden content.}", ":::", "$0"]
+  },
+  "Card": {
+    "prefix": "card",
+    "description": ":::card link (title + href only; body/icon are ignored by the renderer)",
+    "body": [":::card ${1:Title} | href: ${2:../download.html}", ":::", "$0"]
+  },
+  "Card grid": {
+    "prefix": ["cards", "cardgrid"],
+    "description": ":::cards grid of icon + title + description cards",
+    "body": [
+      ":::cards${1: cols: 2}",
+      ":::card ${2:Title} | href: ${3:install.html} | icon: ${4|code,download,help,device|}",
+      "${5:Short description.}",
+      ":::",
+      ":::card ${6:Title} | href: ${7:faq.html} | icon: ${8|code,download,help,device|}",
+      "${9:Short description.}",
+      ":::",
+      ":::",
+      "$0"
+    ]
+  },
+  "Steps": {
+    "prefix": ["steps", "stepcards"],
+    "description": ":::steps auto-numbered card grid (icon + N. title + description)",
+    "body": [
+      ":::steps",
+      ":::card ${1:First step} | icon: ${2|download,code,help,device|}",
+      "${3:What to do.}",
+      ":::",
+      ":::card ${4:Second step} | icon: ${5|code,download,help,device|}",
+      "${6:What to do.}",
+      ":::",
+      ":::",
+      "$0"
+    ]
+  },
+  "Live API panel": {
+    "prefix": ["api-latest", "apipanel"],
+    "description": "Inline live \"latest build\" panel (needs frontmatter apiPanel: inline)",
+    "body": [":::api-latest", ":::", "$0"]
+  },
+  "Terminal code block": {
+    "prefix": ["term", "console"],
+    "description": "Terminal-style block (❯ prompt highlighted, # lines dimmed)",
+    "body": ["```term", "❯ ${1:command}", "```", "$0"]
+  },
+  "Highlighted code block": {
+    "prefix": ["code", "codeblock"],
+    "description": "Syntax-highlighted block (rendered as language-* + highlight.js)",
+    "body": ["```${1|json,javascript,python,rust,yaml,diff,ini|}", "$2", "```", "$0"]
+  },
+  "Table": {
+    "prefix": "table",
+    "description": "GFM table with column alignment",
+    "body": ["| ${1:Column A} | ${2:Column B} |", "| :-- | --: |", "| ${3:a} | ${4:b} |", "$0"]
+  },
+  "Footnote": {
+    "prefix": ["fn", "footnote"],
+    "description": "Footnote reference + definition",
+    "body": ["${1:A claim}.[^${2:id}]", "", "[^$2]: ${3:The definition.}", "$0"]
+  }
+}

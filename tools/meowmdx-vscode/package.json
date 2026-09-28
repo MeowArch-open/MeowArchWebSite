@@ -1,0 +1,40 @@
+{
+  "name": "meowmdx",
+  "displayName": "MeowArch MDX (精简版)",
+  "description": "Language support for MeowArch's custom lightweight MDX dialect (docs/mdx.js): highlighting, snippets, schema-aware diagnostics — no JSX.",
+  "version": "0.1.0",
+  "publisher": "meowarch",
+  "license": "MIT",
+  "engines": { "vscode": "^1.75.0" },
+  "categories": ["Programming Languages", "Snippets", "Linters"],
+  "main": "./extension.js",
+  "activationEvents": ["onLanguage:meowmdx"],
+  "contributes": {
+    "languages": [
+      { "id": "meowmdx", "aliases": ["MeowArch MDX", "meowmdx"], "extensions": [".mdx"], "configuration": "./language-configuration.json" }
+    ],
+    "grammars": [
+      {
+        "language": "meowmdx",
+        "scopeName": "text.meowmdx",
+        "path": "./syntaxes/meowmdx.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.json": "json",
+          "meta.embedded.block.js": "javascript",
+          "meta.embedded.block.python": "python",
+          "meta.embedded.block.rust": "rust",
+          "meta.embedded.block.yaml": "yaml",
+          "meta.embedded.block.diff": "diff",
+          "meta.embedded.block.ini": "ini"
+        }
+      }
+    ],
+    "snippets": [ { "language": "meowmdx", "path": "./snippets/meowmdx.code-snippets" } ],
+    "configuration": {
+      "title": "MeowArch MDX",
+      "properties": {
+        "meowmdx.validate.enable": { "type": "boolean", "default": true, "description": "Validate frontmatter and ::: directives against the mdx.js / gen-docs.mjs schema." }
+      }
+    }
+  }
+}

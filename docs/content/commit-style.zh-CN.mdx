@@ -1,0 +1,37 @@
+---
+title: 提交规范
+description: commit message 与 PR 的约定喵。
+section: develop
+order: 3
+icon: help
+landing: false
+sidebar: true
+---
+
+# 提交规范
+:::note note
+当前文档大部分地方还只是占位符喵，正在施工！
+:::
+统一的提交格式让历史更清晰、review 更省心喵。
+
+:::tip 约定式提交
+推荐采用 `type(scope): 描述` 的格式喵。
+:::
+
+## Commit message
+
+- `feat`：新功能喵
+- `fix`：修复问题
+- `docs`：仅文档改动
+- `refactor`：重构，不改行为
+- `chore`：杂项 / 构建 / 工具
+
+示例：
+
+```term
+❯ git commit -m "feat(k80): 适配指纹解锁"
+```
+
+## Pull Request
+
+标题沿用同样的前缀，正文说明动机、改动点与测试情况喵。
