@@ -541,5 +541,5 @@
     return { html: parts.filter(Boolean).join("\n"), frontmatter };
   }
 
-  root.MEOWARCH_MDX = { render, escapeHtml, parseFrontmatter };
+  root.MEOWARCH_MDX = { render, escapeHtml, parseFrontmatter, TERMINAL_LANGS };
 })(typeof window !== "undefined" ? window : globalThis);

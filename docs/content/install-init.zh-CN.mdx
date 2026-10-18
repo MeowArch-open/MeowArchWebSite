@@ -25,6 +25,14 @@ sidebar: true
 ## 注意！！！
 **千万不要**试图在**没有解锁bootloader**的手机上尝试，操作前请**先在**Android**获取root权限**，**猫猫没在开玩笑喵**！
 
+## 开始之前
+
+如果您希望做双系统喵，请**务必双槽线刷**官方包（可以不刷metadata和userdata），防止因为空槽位砖机喵！
+
+:::note 提示
+后面review才想到recovery有adb这个东西，其实直接推f2fs-tools到recovery也可以 XD
+:::
+
 :::details EX 1.1 修改recovery 
 1. 下载适用于你设备的twrp喵！（这不就猫猫就不详细展开了喵）
 2. 按以下步骤修补twrp喵。
@@ -35,7 +43,7 @@ sidebar: true
 Linux:
 ```term
 ❯ magiskboot unpack /path/to/your-twrp.img
-❯ magiskboot cpio 
+❯ magiskboot cpio ramdisk.cpio extract
 ```
 
 接着将`f2fs_tools`**解压到当前目录**，例如这样喵：
@@ -61,7 +69,7 @@ Linux:
 接下来，我们来patch cpio喵！用下面的命令patch cpio喵。
 
 ```term
-❯ magiskboot cpio ramdisk.cpio \
+❯ magiskboot cpio ramdisk.cpio patch \
     "add 0755 system/bin/fsck.f2fs ../f2fs-tools/fsck.f2fs" \
     "add 0755 system/bin/mkfs.f2fs ../f2fs-tools/mkfs.f2fs" \
     "ln fsck.f2fs system/bin/resize.f2fs" \
@@ -74,6 +82,72 @@ Linux:
 
 
 :::
+
+:::details EX 1.2 刷入Recovery
+
+刷入Recovery有两种方式:
+
+:::details 1.fastboot刷入
+
+**1.1 下载fastboot工具和驱动**
+
+此处不展开了喵，教程一搜一大把喵！
+
+**1.2 进入fastboot**
+
+物理按键**音量下+电源**，或者直接在系统下`adb reboot bootloader`。
+
+**1.3 刷入Recovery**
+
+在开始之前，我们需要确定当前槽位，输入`fastboot getvar all`，看**current_slot**是**a**还是**b**。
+
+如果是a，请输入以下命令：
+
+```term
+❯ fastboot flash recovery_a <EX 1.1修补过的img文件路径>
+```
+
+如果是b，请输入以下命令：
+
+```term
+❯ fastboot flash recovery_b <EX 1.1修补过的img文件路径>
+```
+:::
+
+:::details 2.第三方软件刷入
+
+这类工具相当多，这里不多赘述了喵，例如爱玩机工具箱啊，或者您自行dd进去也可以喵，底层原理基本都是直接dd写分区喵！
+
+:::
+
+:::
+
+:::details EX 1.3 缩容userdata
+
+接下来，请进入`Recovery``，并**取消挂载**userdata/data，然后切换到twrp的终端，开始准备缩容userdata。
+
+:::danger 务必保证userdata完全取消挂载
+**务必保证userdata完全取消挂载，否则可能会导致数据损坏！**
+:::
+
+
+**Step 1**：
+
+执行以下命令检查userdata分区的健康状态喵！
+
+```term
+❯ fsck.f2fs -f /dev/block/by-name/userdata
+```
+
+:::details 命令解释
+- `fsck.f2fs`: 一个磁盘检查工具
+- `-f`: 强制进行全面扫描并修复
+- `/dev/block/by-name/userdata`: userdata的块设备路径
+:::
+
+
+:::
+
 
 ## 首次初始化
 

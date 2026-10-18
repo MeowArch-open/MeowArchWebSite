@@ -10,6 +10,9 @@
 
   const i18n = window.MEOWARCH_I18N;
   const t = (key, params) => (i18n ? i18n.t(key, params) : key);
+  /* langs whose code blocks are rendered with a decorative ❯ prompt */
+  const TERMINAL_LANGS = (window.MEOWARCH_MDX && window.MEOWARCH_MDX.TERMINAL_LANGS)
+    || new Set(["", "term", "console", "shell", "sh", "bash"]);
 
   /* ---- sidebar: highlight the current page ---- */
   const here = window.location.pathname.replace(/\/+$/, "");
@@ -121,7 +124,13 @@
       copy.className = "code-copy";
       copy.textContent = t("docs.copy");
       copy.addEventListener("click", async () => {
-        const text = (code || pre).textContent;
+        let text = (code || pre).textContent;
+        /* terminal blocks: strip the decorative ❯ prompt from each line */
+        if (TERMINAL_LANGS.has(lang)) {
+          text = text.split("\n")
+            .map((ln) => ln.replace(/^(\s*)❯\s?/, "$1").trimEnd())
+            .join("\n").replace(/^\n+|\n+$/g, "");
+        }
         try {
           await navigator.clipboard.writeText(text);
           copy.textContent = t("docs.copied");
