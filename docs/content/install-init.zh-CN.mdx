@@ -19,7 +19,7 @@ sidebar: true
 :::
 
 :::tip tip
-如果您希望尝试保留数据，请您务必完成EX步骤喵！如果您无需保留数据，请忽略EX段喵
+如果您希望尝试保留数据，请您务必完成EX步骤喵！如果您无需保留数据，请忽略EX段喵，**暂时要求userdata未加密，加密的暂时无法无损缩容**
 :::
 
 ## 注意！！！
@@ -32,6 +32,8 @@ sidebar: true
 :::note 提示
 后面review才想到recovery有adb这个东西，其实直接推f2fs-tools到recovery也可以 XD
 :::
+
+:::details EX缩容步骤
 
 :::details EX 1.1 修改recovery 
 1. 下载适用于你设备的twrp喵！（这不就猫猫就不详细展开了喵）
@@ -145,6 +147,30 @@ Linux:
 - `/dev/block/by-name/userdata`: userdata的块设备路径
 :::
 
+**Step 2**：
+
+**这里是猫猫最后一次警告喵，开弓没有回头箭了喵**
+
+**请再次确认您的userdata是未加密状态！！！**
+
+**请再次确认您的userdata是未加密状态！！！**
+
+**请再次确认您的userdata是未加密状态！！！**
+
+**确认无误后**开始缩容，在命令运行时，**千万不要尝试**中断命令，所以，**请在稳定的环境下运行命令并全程值守！**
+
+```term
+❯ echo y | ./resize.f2fs -t <目标扇区数> -s /dev/block/by-name/userdata
+```
+
+:::details 命令解释
+- `resize.f2fs`: 一个磁盘缩容工具
+- `-t`: 指定缩容后的扇区数
+- `-s`: 安全模式
+- `/dev/block/by-name/userdata`: userdata的块设备路径
+:::
+
+:::
 
 :::
 
