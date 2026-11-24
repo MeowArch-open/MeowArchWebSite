@@ -379,7 +379,7 @@ function footer(outPath) {
 
 function scripts(outPath, { apiPanel, mdx, hljs }) {
   const srcs = [];
-  if (apiPanel) srcs.push("apiConfig");
+  srcs.push("apiConfig");
   srcs.push("docsI18n", "i18n");
   if (apiPanel) srcs.push("api", "render");
   srcs.push("ui");

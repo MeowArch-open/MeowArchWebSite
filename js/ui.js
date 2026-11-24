@@ -110,4 +110,42 @@
       setTimeout(step, 550);
     }
   }
+
+  /* ---- optional ICP filing notice ---- */
+  const filing = window.MEOWARCH_FILING;
+  if (filing && filing.enabled && filing.number) {
+    const link = /^https?:\/\//i.test(filing.link || "")
+      ? filing.link
+      : "https://beian.miit.gov.cn/";
+    const number = String(filing.number).trim();
+
+    const bar = document.createElement("div");
+    bar.className = "filing-bar";
+    bar.setAttribute("role", "contentinfo");
+    bar.setAttribute("aria-label", number);
+
+    if (filing.badgeUrl) {
+      const badge = document.createElement("img");
+      badge.className = "filing-badge";
+      badge.src = String(filing.badgeUrl);
+      badge.alt = "";
+      badge.loading = "eager";
+      bar.appendChild(badge);
+    } else {
+      const mark = document.createElement("span");
+      mark.className = "filing-mark";
+      mark.setAttribute("aria-hidden", "true");
+      mark.textContent = "京";
+      bar.appendChild(mark);
+    }
+
+    const anchor = document.createElement("a");
+    anchor.href = link;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    anchor.textContent = number;
+    bar.appendChild(anchor);
+    document.body.appendChild(bar);
+    document.body.classList.add("has-filing-bar");
+  }
 })();
