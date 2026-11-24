@@ -26,6 +26,19 @@ API 地址只在 [`api-config.js`](api-config.js) 一处配置（保持原值不
 window.MEOWARCH_API_BASE = "https://api.meowarch.top/api/v1";
 ```
 
+网页底部备案悬挂可以在同一份 [`api-config.js`](api-config.js) 中配置：
+
+```js
+window.MEOWARCH_FILING = {
+  enabled: true,
+  number: "京ICP备XXXXXXXX号",
+  badgeUrl: "/assets/beian-badge.png",
+  link: "https://beian.miit.gov.cn/",
+};
+```
+
+`enabled` 与 `number` 同时配置后，备案号会悬挂在所有主站和文档页底部；点击后跳转工信部备案查询页。`badgeUrl` 可选，留空时显示内置圆形徽标。
+
 公共接口（站点使用，无需鉴权）：
 
 - `GET /devices?flavor=meowarchmobile` — 机型列表

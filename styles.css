@@ -1633,6 +1633,64 @@ a.release-pill:hover {
   opacity: 0.75;
 }
 
+body.has-filing-bar {
+  padding-bottom: 52px;
+}
+
+.filing-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 5px 12px;
+  transform: translateX(-50%);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.filing-bar a {
+  color: var(--text-3);
+}
+
+.filing-bar a:hover {
+  color: var(--sky);
+}
+
+.filing-badge {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.filing-mark {
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 1px solid var(--text-3);
+  border-radius: 50%;
+  color: var(--text-3);
+  font-size: 11px;
+  line-height: 1;
+}
+
+@media (max-width: 520px) {
+  .filing-bar {
+    bottom: 8px;
+    max-width: calc(100vw - 16px);
+  }
+}
+
 /* ---------- reveal animations ---------- */
 .reveal {
   opacity: 0;
